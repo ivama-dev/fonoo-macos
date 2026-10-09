@@ -1,0 +1,2 @@
+# Preserve original formatting of vendored third-party code and licenses.
+macos/Vendor/hidapi/** whitespace=-blank-at-eol,-blank-at-eof

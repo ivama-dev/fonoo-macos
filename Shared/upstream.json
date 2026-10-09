@@ -1,0 +1,111 @@
+{
+  "repository": "https://github.com/ivama-dev/fonoo-ios",
+  "imported_at": "2026-10-09",
+  "files": [
+    {
+      "source": "ios/Fonoo/AccountStore.swift",
+      "destination": "Shared/AccountStore.swift",
+      "sha256": "0f82a1dda147f64c1f0c2d533ee847d7c42f14c655c98d741fa297631dc6df37"
+    },
+    {
+      "source": "ios/Fonoo/CallManager.swift",
+      "destination": "Shared/CallManager.swift",
+      "sha256": "42dce4ba3e33a8915dfad8f2e381c4015c18f211954c7a8aa59a7036f9bd829e"
+    },
+    {
+      "source": "ios/Fonoo/CallSession.swift",
+      "destination": "Shared/CallSession.swift",
+      "sha256": "0de9a9b176cd6811de0a8edbb3b19c37f53864eb264dd26b18c30642c130ae10"
+    },
+    {
+      "source": "ios/Fonoo/ContactsDirectory.swift",
+      "destination": "Shared/ContactsDirectory.swift",
+      "sha256": "720afa9a184eca16e0b56246f77c0cf00ae099995b3ce4ad9245f610e767a9cc"
+    },
+    {
+      "source": "ios/Fonoo/CustomerAccount.swift",
+      "destination": "Shared/CustomerAccount.swift",
+      "sha256": "a417ab35212ade0f4e47348de9ebc47b9d529530a1a37db2f1c53a9edfce9c81"
+    },
+    {
+      "source": "ios/Fonoo/DeviceContact.swift",
+      "destination": "Shared/DeviceContact.swift",
+      "sha256": "6eacb9e73f776c6c07a1acf568a0d712b0abda7fd27a8e5f7aaa30eb48354ba5"
+    },
+    {
+      "source": "ios/Fonoo/Diagnostics.swift",
+      "destination": "Shared/Diagnostics.swift",
+      "sha256": "6db1c37e62acd81726540618f468797ad6b1a4c979bc682c382e85edb0190975"
+    },
+    {
+      "source": "ios/Fonoo/IncomingCallCoordinator.swift",
+      "destination": "Shared/IncomingCallCoordinator.swift",
+      "sha256": "091f4dce76401d6a3944a6454c224a565e15f4099a8df83e00a2d57fbf2bdfa1"
+    },
+    {
+      "source": "ios/Fonoo/LinphoneSIPCore.swift",
+      "destination": "Shared/LinphoneSIPCore.swift",
+      "sha256": "efee4aade1e56903581d00fc7cd1c0282feeec2367d21de4f360349a595f17c3"
+    },
+    {
+      "source": "ios/Fonoo/NetworkMonitor.swift",
+      "destination": "Shared/NetworkMonitor.swift",
+      "sha256": "bdf1ae7873fb4ae3d8d8dbd431c314d862070a92c8f5096a98c75ef5d2211f9a"
+    },
+    {
+      "source": "ios/Fonoo/PhoneStore.swift",
+      "destination": "Shared/PhoneStore.swift",
+      "sha256": "46a331e3765b6aaaa060639e95b687c5ab13f5f6d3c6ef39a850047ad9aa1550"
+    },
+    {
+      "source": "ios/Fonoo/PrivacyInfo.xcprivacy",
+      "destination": "Shared/PrivacyInfo.xcprivacy",
+      "sha256": "dc8d7e1f9a7da7f3381f30746b59206ee62ce225b69fe3bcbb66234f8459be35"
+    },
+    {
+      "source": "ios/Fonoo/SIPAccount.swift",
+      "destination": "Shared/SIPAccount.swift",
+      "sha256": "7c969fbbf8d670490dba68cd8502f4af9b2b7d32b57c8b7552c68c6ff5a78a4c"
+    },
+    {
+      "source": "ios/Fonoo/SIPConnectionCoordinator.swift",
+      "destination": "Shared/SIPConnectionCoordinator.swift",
+      "sha256": "6af5d906bce68091222123777374f9db6c1f157b1aaf11957dc73f0b0ed9ad65"
+    },
+    {
+      "source": "ios/Fonoo/SIPConnectionStatusView.swift",
+      "destination": "Shared/SIPConnectionStatusView.swift",
+      "sha256": "5c5513bc079d493b28df76d9ad246b5bf837a9950e3f0563302c1f5f3fd36560"
+    },
+    {
+      "source": "ios/Fonoo/SIPCore.swift",
+      "destination": "Shared/SIPCore.swift",
+      "sha256": "231e98b4892055d78d874ec30253cc49584aade304055b3bdcd068a69e44eb6d"
+    },
+    {
+      "source": "ios/Fonoo/SystemCallActivity.swift",
+      "destination": "Shared/SystemCallActivity.swift",
+      "sha256": "0355edbed6db65e6da5d4280c4863047e580b0f01fb40ba985b4e89a387bbeab"
+    },
+    {
+      "source": "ios/Fonoo/TeamDirectory.swift",
+      "destination": "Shared/TeamDirectory.swift",
+      "sha256": "0c3402ce6c5c1b2ba8970a2c9e2689a95d947200e87510ad95298a1e2d567025"
+    },
+    {
+      "source": "ios/Fonoo/TeamMember.swift",
+      "destination": "Shared/TeamMember.swift",
+      "sha256": "0e19572ff4af2d9ce4cf6a741b23eb4895bac220b3132ded77ff97c22fb0f11f"
+    },
+    {
+      "source": "ios/Fonoo/TeamPreview.swift",
+      "destination": "Shared/TeamPreview.swift",
+      "sha256": "5e149b9667d20dd0e69e69e4bc42066edd826e3684bcdae8dfc0ce108599949c"
+    },
+    {
+      "source": "ios/Fonoo/TeamView.swift",
+      "destination": "Shared/TeamView.swift",
+      "sha256": "cf0718d170f5430848d0c73aa6eef04702e1e34219febeb1d7efd18b58b7af7c"
+    }
+  ]
+}

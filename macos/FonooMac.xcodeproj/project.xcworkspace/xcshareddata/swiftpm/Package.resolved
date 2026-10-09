@@ -1,0 +1,15 @@
+{
+  "originHash" : "c17fb6b5b7e293a4e3a0a1f4308ff41d13f9fa31d58ea8090e001a810cda85fe",
+  "pins" : [
+    {
+      "identity" : "linphone-sdk-swift-macos",
+      "kind" : "remoteSourceControl",
+      "location" : "https://gitlab.linphone.org/BC/public/linphone-sdk-swift-macos.git",
+      "state" : {
+        "revision" : "0ef44246268559dac7b01042ac7a7d6761ea6201",
+        "version" : "5.5.23"
+      }
+    }
+  ],
+  "version" : 3
+}
