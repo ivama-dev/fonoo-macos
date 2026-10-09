@@ -1,0 +1,33 @@
+name: App checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: app-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  models:
+    name: Apple model checks
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Check shared Mac models
+        env:
+          FONOO_CHECK_BUILD_DIR: ${{ runner.temp }}/FonooMacModels
+        run: bash Checks/run-checks.sh
+      - name: Check account provisioning
+        run: python3 Checks/customer-provisioning-checks.py
+      - name: Check Mac audio device models
+        env:
+          FONOO_DEVICE_CHECK_DIR: ${{ runner.temp }}/FonooMacAudioModels
+        run: bash macos/Checks/run-device-checks.sh
