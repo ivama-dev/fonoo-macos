@@ -28,8 +28,10 @@ Die [iOS-App](https://github.com/ivama-dev/fonoo-ios) ist die Referenz für die 
 
 Die [Mac-Oberfläche als Referenz für Windows](macos/WINDOWS-UI-REFERENZ.md) bleibt enthalten.
 
-## Übernahme und Lizenzen
+## Übernahme
 
 Übernommen wurde der aktuelle Quellstand vom 9. Oktober 2026 (Build 26). Ausschließlich Projektpfade und Prüfpfade wurden an das eigene Repository angepasst. Die ursprüngliche private Git-Historie bleibt im bisherigen Repository und wird wegen des dort enthaltenen Servercodes nicht hier veröffentlicht. Eine Store-Veröffentlichung erfolgt durch die Migration nicht.
 
-[Drittanbieter und Lizenzdateien](THIRD-PARTY-NOTICES.md). GitHub-Prüfungen verwenden synthetische Daten und benötigen keine Produktionszugänge.
+## Lizenz
+
+Die fonoo-macOS-App steht wie der Windows-Client unter **GNU Affero General Public License v3 oder später** (`AGPL-3.0-or-later`). Siehe [LICENSE](LICENSE) und [NOTICE.md](NOTICE.md). Drittanbieter behalten ihre eigenen Lizenzen; [Hinweise und unveränderte Lizenzdateien](THIRD-PARTY-NOTICES.md). GitHub-Prüfungen verwenden synthetische Daten und benötigen keine Produktionszugänge.
