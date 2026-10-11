@@ -26,6 +26,7 @@ enum MacDestination: String, CaseIterable, Identifiable {
 struct MacRootView: View {
     @EnvironmentObject private var phone: PhoneStore
     @EnvironmentObject private var customer: CustomerAccount
+    @EnvironmentObject private var navigation: MacWindowNavigation
     @State private var destination: MacDestination? = .dial
     @State private var destinationBeforeCall: MacDestination = .dial
     @State private var dialNumber = ""
@@ -109,6 +110,16 @@ struct MacRootView: View {
                 .inspectorColumnWidth(min: 360, ideal: 360, max: 400)
         }
         .onAppear { if isTeamPreview { destination = .team } }
+        .onReceive(navigation.$destination) { requested in
+            guard let requested else { return }
+            destination = requested
+            navigation.destination = nil
+        }
+        .onReceive(navigation.$profilesRequested) { requested in
+            guard requested else { return }
+            availabilityPresented = true
+            navigation.profilesRequested = false
+        }
         .sheet(isPresented:$availabilityPresented) { AvailabilityView() }
         .onChange(of: audioPresented) { _, presented in
             if presented {
@@ -307,12 +318,135 @@ struct MacContactRow: View {
 
 struct MacFavoritesView: View {
     @EnvironmentObject private var phone: PhoneStore
+    @State private var groupsPresented = false
     var body: some View {
-        if phone.favorites.isEmpty {
-            ContentUnavailableView("Deine Favoriten", systemImage: "star", description: Text("Markiere Kontakte mit einem Stern, um sie hier schnell anzurufen."))
-        } else {
-            List(phone.favorites) { MacContactRow(contact: $0) }
+        Group {
+            if phone.favorites.isEmpty && phone.favoriteGroups.count == 1 {
+                ContentUnavailableView("Deine Favoriten", systemImage: "star", description: Text("Markiere Kontakte mit einem Stern, um sie hier schnell anzurufen. Eigene Gruppen kannst du oben anlegen."))
+            } else {
+                List {
+                    ForEach(phone.favoriteGroups) { group in
+                        Section(group.name) {
+                            ForEach(group.contacts) { contact in
+                                MacContactRow(contact: contact)
+                                    .contextMenu {
+                                        Menu("In Gruppe verschieben") {
+                                            ForEach(phone.favoriteGroups) { destination in
+                                                Button(destination.name) { phone.assignFavorite(contact.id, to: destination.id) }
+                                                    .disabled(destination.id == group.id)
+                                            }
+                                        }
+                                    }
+                            }.onMove { phone.moveFavorites(in: group.id, from: $0, to: $1) }
+                            if group.contacts.isEmpty { Text("Noch keine Favoriten in dieser Gruppe.").foregroundStyle(.secondary) }
+                        }
+                    }
+                }
+            }
         }
+        .toolbar {
+            ToolbarItem {
+                Button { groupsPresented = true } label: { Label("Gruppen verwalten", systemImage: "folder.badge.plus") }
+            }
+        }
+        .safeAreaInset(edge: .bottom) { MacFavoriteSyncNotice().padding(12) }
+        .sheet(isPresented: $groupsPresented) { MacFavoriteGroupEditor() }
+    }
+}
+
+private struct MacFavoriteSyncNotice: View {
+    @EnvironmentObject private var phone: PhoneStore
+    @State private var importing = false
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            if !phone.favoriteSyncStatus.isEmpty { Text(phone.favoriteSyncStatus).font(.caption).foregroundStyle(.secondary) }
+            HStack {
+                if phone.canImportLegacyFavorites {
+                    Button("Vorhandene Favoriten übernehmen") { importing = true }
+                }
+            }
+        }.frame(maxWidth: .infinity, alignment: .leading)
+        .alert("Vorhandene Favoriten übernehmen?", isPresented: $importing) {
+            Button("Übernehmen") { phone.importLegacyFavorites() }
+            Button("Abbrechen", role: .cancel) {}
+        } message: { Text("Auf diesem Gerät gibt es ältere Favoriten ohne bestätigte Kontozuordnung. Übernimm sie in das angemeldete Konto, wenn es deine eigenen Favoriten sind. Die ursprüngliche Datei bleibt erhalten.") }
+    }
+}
+
+private struct MacFavoriteGroupEditor: View {
+    private static let dragPrefix = "fonoo-favorite-group:"
+    @EnvironmentObject private var phone: PhoneStore
+    @Environment(\.dismiss) private var dismiss
+    @State private var newName = ""
+    @State private var rename = false
+    @State private var remove = false
+    @State private var name = ""
+    @State private var selectedGroup: FavoriteGroup?
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Deine Favoritengruppen").font(.title2.bold())
+            Text("Ziehe Gruppen nach oben oder unten oder verwende die Pfeile. Favoriten verschiebst du über das Kontextmenü im Hauptfenster.")
+                .font(.callout).foregroundStyle(.secondary)
+            HStack {
+                TextField("Name der neuen Gruppe", text: $newName).textFieldStyle(.roundedBorder).onSubmit { create() }
+                Button("Anlegen", action: create).disabled(newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            }
+            ScrollView {
+              LazyVStack(alignment: .leading, spacing: 0) {
+                ForEach(phone.favoriteGroups) { group in
+                    HStack {
+                        Image(systemName: "line.3.horizontal").foregroundStyle(.tertiary).accessibilityHidden(true)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(group.name).font(.headline)
+                            Text("\(group.contacts.count) Favoriten").font(.caption).foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        let index = phone.favoriteGroups.firstIndex(where: { $0.id == group.id }) ?? 0
+                        Button { phone.moveFavoriteGroups(from: IndexSet(integer: index), to: index - 1) } label: { Image(systemName: "arrow.up") }
+                            .disabled(index == 0).help("Gruppe nach oben verschieben")
+                            .accessibilityLabel("\(group.name) nach oben verschieben")
+                        Button { phone.moveFavoriteGroups(from: IndexSet(integer: index), to: index + 2) } label: { Image(systemName: "arrow.down") }
+                            .disabled(index == phone.favoriteGroups.count - 1).help("Gruppe nach unten verschieben")
+                            .accessibilityLabel("\(group.name) nach unten verschieben")
+                        if !group.isGeneral {
+                            Menu {
+                                Button("Umbenennen") { selectedGroup = group; name = group.name; rename = true }
+                                Button("Gruppe löschen", role: .destructive) { selectedGroup = group; remove = true }
+                            } label: { Image(systemName: "ellipsis") }.menuStyle(.borderlessButton).fixedSize()
+                                .accessibilityLabel("Gruppe \(group.name) bearbeiten")
+                        }
+                    }.buttonStyle(.borderless).padding(.vertical, 10)
+                        .contentShape(Rectangle())
+                        .draggable(Self.dragPrefix + group.id)
+                        .dropDestination(for: String.self) { items, _ in
+                            guard items.count == 1, let item = items.first, item.hasPrefix(Self.dragPrefix),
+                                  let source = phone.favoriteGroups.firstIndex(where: { $0.id == String(item.dropFirst(Self.dragPrefix.count)) }),
+                                  let target = phone.favoriteGroups.firstIndex(where: { $0.id == group.id }),
+                                  source != target else { return false }
+                            phone.moveFavoriteGroups(from: IndexSet(integer: source), to: source < target ? target + 1 : target)
+                            return true
+                        }
+                    Divider()
+                }
+              }.padding(.horizontal, 12)
+            }.frame(minHeight: 220)
+            if let error = phone.favoriteEditingError { Text(error).foregroundStyle(.red) }
+            MacFavoriteSyncNotice()
+            HStack { Spacer(); Button("Fertig") { dismiss() }.keyboardShortcut(.defaultAction) }
+        }.padding(24).frame(width: 580, height: 520)
+        .alert("Gruppe umbenennen", isPresented: $rename) {
+            TextField("Gruppenname", text: $name)
+            Button("Speichern") { if let group = selectedGroup { phone.renameFavoriteGroup(group.id, name: name) } }
+            Button("Abbrechen", role: .cancel) {}
+        }
+        .alert("Gruppe löschen?", isPresented: $remove) {
+            Button("Löschen", role: .destructive) { if let group = selectedGroup { phone.deleteFavoriteGroup(group.id) } }
+            Button("Abbrechen", role: .cancel) {}
+        } message: { Text("Ihre Favoriten werden nach Allgemein verschoben.") }
+    }
+    private func create() {
+        phone.createFavoriteGroup(newName)
+        if phone.favoriteEditingError == nil { newName = "" }
     }
 }
 

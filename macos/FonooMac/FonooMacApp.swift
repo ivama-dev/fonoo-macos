@@ -16,11 +16,14 @@ final class MacAppDelegate: NSObject, NSApplicationDelegate {
     let phone: PhoneStore
     let customer: CustomerAccount = {
         #if DEBUG
-        if TeamPreview.enabled { return CustomerAccount(teamPreview: true) }
+        if TeamPreview.enabled || ProcessInfo.processInfo.arguments.contains("--preview-call-ui") {
+            return CustomerAccount(teamPreview: true)
+        }
         #endif
         return CustomerAccount()
     }()
     lazy var callActivity = MacCallActivity(manager: phone.manager)
+    let navigation = MacWindowNavigation()
     private var statusItem: MacCallStatusItem?
     private var miniCallWindow: MacMiniCallWindow?
     var openMainWindow: (() -> Void)?
@@ -168,7 +171,15 @@ final class MacAppDelegate: NSObject, NSApplicationDelegate {
     private func installStatusItem() {
         let miniCall = MacMiniCallWindow(phone: phone, activity: callActivity) { [weak self] in self?.showMainWindow() }
         miniCallWindow = miniCall
-        statusItem = MacCallStatusItem(phone: phone, activity: callActivity, miniCallWindow: miniCall) { [weak self] in self?.showMainWindow() }
+        statusItem = MacCallStatusItem(phone: phone, customer: customer, activity: callActivity, miniCallWindow: miniCall,
+            showWindow: { [weak self] in self?.showMainWindow() },
+            showDestination: { [weak self] destination in
+                self?.navigation.destination = destination
+                self?.showMainWindow()
+            }, showProfiles: { [weak self] in
+                self?.navigation.profilesRequested = true
+                self?.showMainWindow()
+            })
     }
     func applicationWillTerminate(_ notification: Notification) {
         callActivity.stop()
@@ -213,6 +224,8 @@ final class MacAppDelegate: NSObject, NSApplicationDelegate {
     }
     #endif
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
+    func showMenuBar() { statusItem?.togglePopover() }
+    func restoreMenuBarPosition() { statusItem?.restoreVisiblePosition() }
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
         showMainWindow()
         return true
@@ -283,6 +296,7 @@ struct FonooMacApp: App {
                 .environmentObject(delegate.phone)
                 .environmentObject(delegate.customer)
                 .environmentObject(delegate.callActivity)
+                .environmentObject(delegate.navigation)
                 .tint(MacStyle.accent)
                 .frame(minWidth: 820, minHeight: 580)
                 .onAppear {
@@ -301,6 +315,11 @@ struct FonooMacApp: App {
         .defaultSize(width: 1060, height: 720)
         .commands {
             CommandGroup(replacing: .newItem) {}
+            CommandGroup(after: .appInfo) {
+                Button("Schnellzugriff öffnen", action: delegate.showMenuBar)
+                    .keyboardShortcut("m", modifiers: [.command, .option])
+                Button("Menüleistensymbol rechts einblenden", action: delegate.restoreMenuBarPosition)
+            }
             MacTelephonyCommands(phone: delegate.phone, showMiniCall: delegate.showMiniCallWindow)
         }
     }

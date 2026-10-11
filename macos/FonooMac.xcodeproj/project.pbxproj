@@ -251,7 +251,7 @@
 				<key>COMBINE_HIDPI_IMAGES</key>
 				<string>YES</string>
 				<key>CURRENT_PROJECT_VERSION</key>
-				<string>26</string>
+				<string>30</string>
 				<key>DEVELOPMENT_TEAM</key>
 				<string>T8KX8P7FUS</string>
 				<key>ENABLE_APP_SANDBOX</key>
@@ -549,6 +549,8 @@
 				<string>9C8D833AC78856189172D440</string>
 				<string>81E620CE7EA3FE7555DEBFF8</string>
 				<string>B94B60F2AA41C8530C01DBA5</string>
+				<string>E66AFEFD5A621EB78E2D7E80</string>
+				<string>E717D1C1DCDC4D6BA5EAFE30</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -608,6 +610,8 @@
 				<string>C11B7FE7A91939B6CEA3C522</string>
 				<string>86B5B1FECC7F7B4AB0B5E352</string>
 				<string>4785E2B6E3C5D014842B9A97</string>
+				<string>ECB2387BD752E6D3AB915CC4</string>
+				<string>4D94856CA293463A999BDC9B</string>
 			</array>
 			<key>isa</key>
 			<string>PBXSourcesBuildPhase</string>
@@ -763,7 +767,7 @@
 				<key>COMBINE_HIDPI_IMAGES</key>
 				<string>YES</string>
 				<key>CURRENT_PROJECT_VERSION</key>
-				<string>26</string>
+				<string>30</string>
 				<key>DEVELOPMENT_TEAM</key>
 				<string>T8KX8P7FUS</string>
 				<key>ENABLE_APP_SANDBOX</key>
@@ -1020,6 +1024,42 @@
 			<string>PBXBuildFile</string>
 			<key>fileRef</key>
 			<string>B94B60F2AA41C8530C01DBA5</string>
+		</dict>
+		<key>E66AFEFD5A621EB78E2D7E80</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>../Shared/FavoriteGroups.swift</string>
+			<key>sourceTree</key>
+			<string>SOURCE_ROOT</string>
+		</dict>
+		<key>ECB2387BD752E6D3AB915CC4</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+			<key>fileRef</key>
+			<string>E66AFEFD5A621EB78E2D7E80</string>
+		</dict>
+		<key>E717D1C1DCDC4D6BA5EAFE30</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>FonooMac/MacMenuBarPlacement.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4D94856CA293463A999BDC9B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>E717D1C1DCDC4D6BA5EAFE30</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
 		</dict>
 	</dict>
 	<key>rootObject</key>

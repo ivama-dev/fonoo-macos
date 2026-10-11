@@ -51,3 +51,9 @@ swiftc -parse-as-library -module-cache-path "$CHECK_BUILD_DIR/module-cache" \
   Shared/CallSession.swift Shared/TeamMember.swift Shared/DeviceContact.swift Checks/TeamPresenceChecks.swift \
   -o "$CHECK_BUILD_DIR/TeamPresenceChecks"
 "$CHECK_BUILD_DIR/TeamPresenceChecks"
+
+swiftc -parse-as-library -module-cache-path "$CHECK_BUILD_DIR/module-cache" \
+  Shared/CallSession.swift Shared/FavoriteGroups.swift Checks/FavoriteGroupChecks.swift \
+  -o "$CHECK_BUILD_DIR/FavoriteGroupChecks"
+"$CHECK_BUILD_DIR/FavoriteGroupChecks"
+python3 Checks/favorite-sync-checks.py

@@ -1,0 +1,965 @@
+[
+  {
+    "name": "remote rename and local addition",
+    "base": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "local": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "c",
+              "name": "C",
+              "role": "work",
+              "number": "103"
+            }
+          ]
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "remote": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Büro",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "c",
+              "name": "C",
+              "role": "work",
+              "number": "103"
+            }
+          ]
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Büro",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "remote group order and local rename",
+    "base": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": []
+        },
+        {
+          "id": "22222222-2222-4222-8222-222222222222",
+          "name": "Familie",
+          "contacts": []
+        }
+      ]
+    },
+    "local": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Büro",
+          "contacts": []
+        },
+        {
+          "id": "22222222-2222-4222-8222-222222222222",
+          "name": "Familie",
+          "contacts": []
+        }
+      ]
+    },
+    "remote": {
+      "groups": [
+        {
+          "id": "22222222-2222-4222-8222-222222222222",
+          "name": "Familie",
+          "contacts": []
+        },
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": []
+        }
+      ]
+    },
+    "expected": {
+      "groups": [
+        {
+          "id": "22222222-2222-4222-8222-222222222222",
+          "name": "Familie",
+          "contacts": []
+        },
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Büro",
+          "contacts": []
+        }
+      ]
+    }
+  },
+  {
+    "name": "deleted group retains remote new contacts",
+    "base": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "local": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "remote": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            },
+            {
+              "id": "c",
+              "name": "C",
+              "role": "work",
+              "number": "103"
+            }
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            },
+            {
+              "id": "c",
+              "name": "C",
+              "role": "work",
+              "number": "103"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "remote deletion does not resurrect",
+    "base": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "local": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            },
+            {
+              "id": "c",
+              "name": "C",
+              "role": "work",
+              "number": "103"
+            }
+          ]
+        }
+      ]
+    },
+    "remote": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "c",
+              "name": "C",
+              "role": "work",
+              "number": "103"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "local move and remote contact edit",
+    "base": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "local": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            },
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        }
+      ]
+    },
+    "remote": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "Remote",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            },
+            {
+              "id": "a",
+              "name": "Remote",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "equal name groups coalesce",
+    "base": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        }
+      ]
+    },
+    "local": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        }
+      ]
+    },
+    "remote": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        },
+        {
+          "id": "22222222-2222-4222-8222-222222222222",
+          "name": "Arbeit",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            },
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "lost upload response followed by deletion",
+    "base": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        }
+      ]
+    },
+    "local": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": []
+        }
+      ]
+    },
+    "remote": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "deleted_contact_ids": [
+      "a"
+    ]
+  },
+  {
+    "name": "remote contact order survives local group addition",
+    "base": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            },
+            {
+              "id": "c",
+              "name": "C",
+              "role": "work",
+              "number": "103"
+            }
+          ]
+        }
+      ]
+    },
+    "local": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            },
+            {
+              "id": "c",
+              "name": "C",
+              "role": "work",
+              "number": "103"
+            }
+          ]
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": []
+        }
+      ]
+    },
+    "remote": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "c",
+              "name": "C",
+              "role": "work",
+              "number": "103"
+            },
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "c",
+              "name": "C",
+              "role": "work",
+              "number": "103"
+            },
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        },
+        {
+          "id": "11111111-1111-4111-8111-111111111111",
+          "name": "Arbeit",
+          "contacts": []
+        }
+      ]
+    }
+  },
+  {
+    "name": "local order with independent remote insert",
+    "base": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "local": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            },
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        }
+      ]
+    },
+    "remote": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "d",
+              "name": "D",
+              "role": "work",
+              "number": "104"
+            },
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            }
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "b",
+              "name": "B",
+              "role": "work",
+              "number": "102"
+            },
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            },
+            {
+              "id": "d",
+              "name": "D",
+              "role": "work",
+              "number": "104"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "name": "independent edits of contact fields",
+    "base": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        }
+      ]
+    },
+    "local": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "Local",
+              "role": "work",
+              "number": "101"
+            }
+          ]
+        }
+      ]
+    },
+    "remote": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "A",
+              "role": "mobile",
+              "number": "201"
+            }
+          ]
+        }
+      ]
+    },
+    "expected": {
+      "groups": [
+        {
+          "id": "ungrouped",
+          "name": "Allgemein",
+          "contacts": [
+            {
+              "id": "a",
+              "name": "Local",
+              "role": "mobile",
+              "number": "201"
+            }
+          ]
+        }
+      ]
+    }
+  }
+]

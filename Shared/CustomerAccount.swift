@@ -187,6 +187,7 @@ final class CustomerAccount: ObservableObject {
     private var accountID = ""
     private var revision = 0
     private weak var phone: PhoneStore?
+    private var favoritesSync: CloudFavoritesSync?
     private var historySync: CloudCallHistorySync?
     private var historyMemberships: Set<String>?
     private let cloudSelectionKey = "fonoo.cloud.selected.v2"
@@ -249,6 +250,9 @@ final class CustomerAccount: ObservableObject {
             }
         }
         attachHistorySync(phone: phone)
+        attachFavoritesSync(phone: phone)
+        if let owner = rememberedSession?.user_id { phone.selectFavoriteOwner(owner) }
+        else { phone.clearFavoriteContext() }
         phone.resolveTeamContact = { [weak self] number in
             guard let self, self.teamContext?.tenantID == self.activeCloudMembership?.id else { return nil }
             return self.teamDirectory.snapshot?.resolvedContact(number: number)
@@ -296,6 +300,7 @@ final class CustomerAccount: ObservableObject {
     }
     private func beginLogin(_ value: String) {
         phone?.cancelCloudRegistrationIntent()
+        favoritesSync?.setContext(nil); phone?.clearFavoriteContext()
         loginGeneration = UUID(); renewalTask?.cancel(); renewalTask = nil
         clearPresence()
         teamDirectory.setContext(nil)
@@ -373,6 +378,7 @@ final class CustomerAccount: ObservableObject {
                 clearSession(); try? phone?.unregister()
             }
             let text = (try? JSONDecoder().decode(Failure.self, from: data).error) ?? "Kontodienst vorübergehend nicht erreichbar."
+            if cloud && path == "favorites" && http.statusCode == 409 { throw FavoriteError.serverConflict }
             throw PhoneError.message(text)
         }
         return try JSONDecoder().decode(T.self, from: data)
@@ -436,6 +442,9 @@ final class CustomerAccount: ObservableObject {
         passwordConfigured = result.password_configured == true
         passwordManaged = result.password_managed == true
         accountLoaded = true
+        let legacyOwner = (UserDefaults.standard.dictionary(forKey: cloudSelectionKey) as? [String: String])?["account_id"]
+        phone?.selectFavoriteOwner(accountID, importLegacy: legacyOwner == accountID)
+        favoritesSync?.setContext(phone?.favoriteSyncEnabled == true ? accountID : nil)
         cloudMessage = ""
         do {
             let cloud: CloudSummary = try await requestData("me", cloud: true)
@@ -542,6 +551,7 @@ final class CustomerAccount: ObservableObject {
     }
 
     func setPresenceForeground(_ active: Bool) {
+        if active { phone?.onFavoritesRefresh?() }
         guard presenceForeground != active else { return }
         presenceForeground = active
         presencePolling?.cancel(); presencePolling = nil
@@ -880,6 +890,7 @@ final class CustomerAccount: ObservableObject {
     private func clearSession() {
         phone?.cancelCloudRegistrationIntent()
         historySync?.setContext(nil)
+        favoritesSync?.setContext(nil); phone?.clearFavoriteContext()
         historyMemberships = nil
         loginGeneration = UUID(); renewalTask?.cancel(); renewalTask = nil
         rememberedSession = nil; rememberedDevice = false; accountLoaded = false
@@ -1129,6 +1140,17 @@ extension CustomerAccount {
 #endif
 
 private extension CustomerAccount {
+    func attachFavoritesSync(phone: PhoneStore) {
+        favoritesSync?.setContext(nil)
+        favoritesSync = CloudFavoritesSync(phone: phone, read: { [weak self] owner in
+            guard let self, self.signedIn, self.accountID == owner else { throw CancellationError() }
+            return try await self.requestData("favorites", cloud: true)
+        }, write: { [weak self] owner, revision, library in
+            guard let self, self.signedIn, self.accountID == owner else { throw CancellationError() }
+            struct Change: Encodable { let expected_revision: Int64; let library: FavoriteLibrary }
+            return try await self.requestData("favorites", bodyData: JSONEncoder().encode(Change(expected_revision: revision, library: library)), cloud: true)
+        })
+    }
     func attachHistorySync(phone: PhoneStore) {
         historySync?.setContext(nil)
         historySync = CloudCallHistorySync(manager: phone.manager, read: { [weak self] tenant, revision in
@@ -1151,6 +1173,84 @@ private extension CustomerAccount {
             historySync?.setContext(nil); return
         }
         historySync?.setContext(.init(user: accountID, tenant: tenant))
+    }
+}
+
+/// Serialized personal favorites sync; old-login callbacks never reach a new user's library.
+@MainActor
+private final class CloudFavoritesSync {
+    private weak var phone: PhoneStore?
+    private let read: (String) async throws -> CloudFavoriteSnapshot
+    private let write: (String, Int64, FavoriteLibrary) async throws -> CloudFavoriteSnapshot
+    private var owner: String?
+    private var generation = UUID()
+    private var working: UUID?
+    private var resync = false
+    private var scheduled: Task<Void, Never>?
+    private var polling: Task<Void, Never>?
+    init(phone: PhoneStore, read: @escaping (String) async throws -> CloudFavoriteSnapshot,
+         write: @escaping (String, Int64, FavoriteLibrary) async throws -> CloudFavoriteSnapshot) {
+        self.phone = phone; self.read = read; self.write = write
+        phone.onFavoritesChanged = { [weak self] in self?.schedule() }
+        phone.onFavoritesRefresh = { [weak self] in self?.schedule() }
+    }
+    deinit { scheduled?.cancel(); polling?.cancel() }
+    func setContext(_ value: String?) {
+        guard owner != value else { return }
+        scheduled?.cancel(); polling?.cancel(); generation = UUID(); owner = value
+        working = nil; resync = false
+        guard value != nil else { return }
+        schedule()
+        polling = Task { @MainActor [weak self] in
+            while !Task.isCancelled {
+                do { try await Task.sleep(for: .seconds(5)) } catch { return }
+                await self?.refresh()
+            }
+        }
+    }
+    private func schedule() {
+        guard owner != nil else { return }
+        if working != nil { resync = true; return }
+        scheduled?.cancel()
+        scheduled = Task { @MainActor [weak self] in
+            do { try await Task.sleep(for: .milliseconds(300)) } catch { return }
+            await self?.refresh()
+        }
+    }
+    private func refresh() async {
+        guard let owner, let phone else { return }
+        guard working == nil else { resync = true; return }
+        let ticket = UUID(), token = generation
+        working = ticket; resync = false
+        defer {
+            if working == ticket {
+                working = nil
+                if resync && token == generation { schedule() }
+            }
+        }
+        do {
+            for attempt in 0..<3 {
+                let snapshot = try await read(owner)
+                guard token == generation, !Task.isCancelled else { return }
+                _ = try snapshot.checked(owner: owner)
+                try phone.observeCloudFavorites(snapshot)
+                guard let change = try phone.favoriteUpload(owner: owner) else { return }
+                do {
+                    let saved = try await write(owner, change.revision, change.library)
+                    guard token == generation, !Task.isCancelled else { return }
+                    try phone.acknowledgeFavorites(saved, sent: change.library)
+                    return
+                } catch FavoriteError.serverConflict {
+                    if attempt == 2 {
+                        phone.setFavoriteSyncStatus("Lokal gespeichert · automatischer Abgleich ausstehend", owner: owner)
+                    }
+                }
+            }
+        } catch is CancellationError { return }
+        catch {
+            guard token == generation, !Task.isCancelled else { return }
+            phone.setFavoriteSyncStatus("Lokal gespeichert · Synchronisierung fehlgeschlagen: " + error.localizedDescription, owner: owner)
+        }
     }
 }
 

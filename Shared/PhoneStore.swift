@@ -12,7 +12,26 @@ final class PhoneStore: ObservableObject {
         sipTracing = enabled && supportsSIPTracing
         manager.setSIPTracing(sipTracing)
     }
-    @Published private(set) var favorites: [Contact] = []
+    @Published private(set) var favoriteLibrary: FavoriteLibrary = .empty
+    @Published private(set) var favoriteSyncStatus = ""
+    @Published private(set) var favoriteSyncEnabled = false
+    var canSynchronizeFavorites: Bool { favoriteOwner != nil }
+    var canImportLegacyFavorites: Bool {
+        favoriteOwner != nil && favoritesDefaults.string(forKey: "fonoo.favorites.legacyOwner") == ""
+            && FileManager.default.fileExists(atPath: legacyFavoritesStore.url.path)
+    }
+    @Published private(set) var favoriteConflict = false
+    @Published private(set) var favoriteEditingError: String?
+    var favorites: [Contact] { favoriteLibrary.contacts }
+    var favoriteGroups: [FavoriteGroup] { favoriteLibrary.groups }
+    var onFavoritesChanged: (() -> Void)?
+    var onFavoritesRefresh: (() -> Void)?
+    private var favoriteState = FavoriteLibraryState(owner: "local")
+    private var favoriteOwner: String?
+    private var favoriteStore: FavoriteLibraryStore? = .local
+    private var favoritePersistence: FavoriteLibraryStore = .local
+    private var legacyFavoritesStore: FavoritesStore = .local
+    private var favoritesDefaults: UserDefaults = .standard
     @Published var doNotDisturb = false { didSet { manager.doNotDisturb = doNotDisturb; onPushPreferenceChanged() } }
     @Published private(set) var account = SIPAccount()
     @Published private(set) var hasSavedPassword = false
@@ -64,7 +83,6 @@ final class PhoneStore: ObservableObject {
         #endif
     }
     var onVoIPTokenChanged: (Data?) -> Void = { _ in }
-    private var favoritesStore: FavoritesStore? = .local
     private let accountStore = AccountStore()
     private let audio: AudioManager
     private let network = NetworkMonitor()
@@ -75,6 +93,9 @@ final class PhoneStore: ObservableObject {
     #if DEBUG
     /// Isolated UI fixture: no saved account, registration, history or contacts.
     init(previewCore: SIPCore) {
+        favoritePersistence = FavoriteLibraryStore(directory: FileManager.default.temporaryDirectory.appendingPathComponent("fonoo-preview-favorites-" + UUID().uuidString, isDirectory: true))
+        favoriteStore = favoritePersistence
+        favoriteState = FavoriteLibraryState(owner: "preview")
         connection = nil
         diagnostics = Diagnostics()
         audio = AudioManager()
@@ -114,11 +135,8 @@ final class PhoneStore: ObservableObject {
             }
         }
         catch { manager.show(error.localizedDescription) }
-        do { favorites = try favoritesStore?.load() ?? [] }
-        catch {
-            favoritesStore = nil
-            manager.show("Favoriten konnten nicht geladen werden. Die gespeicherte Datei bleibt erhalten.")
-        }
+        captureLegacyFavoritesOwner()
+        selectFavoriteOwner(nil)
         manager.resolveContact = { [weak self] number in
             guard let self else { return nil }
             if let match = self.resolveTeamContact(number) { return match }
@@ -395,26 +413,119 @@ final class PhoneStore: ObservableObject {
         hasSavedPassword = false
         hasSavedTURNPassword = false
     }
-    func moveFavorites(from offsets: IndexSet, to destination: Int) {
-        guard let favoritesStore else { manager.show("Favoriten konnten nicht geladen werden."); return }
-        var reordered = favorites
-        let moving = offsets.sorted().map { favorites[$0] }
-        for index in offsets.sorted(by: >) { reordered.remove(at: index) }
-        let target = destination - offsets.filter { $0 < destination }.count
-        reordered.insert(contentsOf: moving, at: target)
-        guard reordered != favorites else { return }
-        do { try favoritesStore.save(reordered); favorites = reordered }
-        catch { manager.show("Reihenfolge konnte nicht gespeichert werden.") }
+    /// Capture the pre-upgrade account BEFORE a new login can replace its device selection.
+    private func captureLegacyFavoritesOwner() {
+        guard favoritesDefaults.object(forKey: "fonoo.favorites.legacyOwner") == nil else { return }
+        let previous = (favoritesDefaults.dictionary(forKey: "fonoo.cloud.selected.v2") as? [String: String])?["account_id"]
+        favoritesDefaults.set(previous ?? "", forKey: "fonoo.favorites.legacyOwner")
     }
-    func toggleFavorite(_ contact: Contact) {
-        guard let favoritesStore else {
-            manager.show("Favoriten sind wegen eines Lesefehlers vorübergehend schreibgeschützt.")
-            return
+    /// Only a confirmed account may adopt the legacy device list once. Its file is retained.
+    func selectFavoriteOwner(_ owner: String?, importLegacy: Bool = false) {
+        guard favoriteOwner != owner || favoriteLibrary == .empty else { return }
+        favoriteOwner = owner; favoriteStore = favoritePersistence
+        favoriteEditingError = nil
+        // Personal favorites are always an account feature, regardless of a
+        // previous per-device opt-out preference from the pilot version.
+        favoriteSyncEnabled = owner != nil
+        favoriteSyncStatus = favoriteSyncEnabled ? "Favoriten werden synchronisiert …" : "Auf diesem Gerät gespeichert"
+        do {
+            let key = owner ?? "local"
+            var state = try favoriteStore!.load(owner: key) ?? FavoriteLibraryState(owner: key)
+            let claimed = favoritesDefaults.string(forKey: "fonoo.favorites.legacyOwner")
+            if state.library.contacts.isEmpty && state.library.groups.count == 1 && state.revision == nil,
+               (owner == nil && claimed == nil || owner != nil && importLegacy && claimed == owner) {
+                let legacy = try legacyFavoritesStore.load()
+                var ids = Set<String>()
+                state.library.groups[0].contacts = legacy.filter { ids.insert($0.id).inserted }
+                state.dirty = owner != nil && !state.library.contacts.isEmpty
+                try favoriteStore!.save(state)
+                if let owner, importLegacy { favoritesDefaults.set(owner, forKey: "fonoo.favorites.legacyOwner") }
+            }
+            _ = try state.library.checked(); publishFavorites(state)
+        } catch {
+            favoriteStore = nil
+            publishFavorites(FavoriteLibraryState(owner: owner ?? "local"))
+            favoriteSyncStatus = FavoriteError.unavailable.localizedDescription
+            manager.show(FavoriteError.unavailable.localizedDescription)
         }
-        var updated = favorites
-        if updated.contains(where: { $0.id == contact.id }) { updated.removeAll { $0.id == contact.id } }
-        else { updated.append(contact) }
-        do { try favoritesStore.save(updated); favorites = updated }
-        catch { manager.show("Favoriten konnten nicht gespeichert werden.") }
+    }
+    func clearFavoriteContext() {
+        favoriteOwner = nil; favoriteStore = nil; favoriteSyncEnabled = false; favoriteEditingError = nil
+        publishFavorites(FavoriteLibraryState(owner: "signed-out")); favoriteSyncStatus = ""
+    }
+    private func publishFavorites(_ state: FavoriteLibraryState) {
+        favoriteState = state; favoriteLibrary = state.library; favoriteConflict = state.conflict != nil
+    }
+    private func saveFavorites(_ state: FavoriteLibraryState) throws {
+        guard let favoriteStore else { throw FavoriteError.unavailable }
+        try favoriteStore.save(state); publishFavorites(state)
+    }
+    private func editFavorites(_ change: (inout FavoriteLibrary) throws -> Void) {
+        favoriteEditingError = nil
+        do {
+            var state = favoriteState
+            let before = state.library
+            try change(&state.library); _ = try state.library.checked()
+            guard state.library != favoriteLibrary else { return }
+            let contacts = Set(state.library.contacts.map(\.id)), groups = Set(state.library.groups.map(\.id))
+            state.deletedContactIDs = (state.deletedContactIDs ?? []).union(Set(before.contacts.map(\.id)).subtracting(contacts)).subtracting(contacts)
+            state.deletedGroupIDs = (state.deletedGroupIDs ?? []).union(Set(before.groups.map(\.id)).subtracting(groups)).subtracting(groups)
+            state.dirty = true
+            try saveFavorites(state)
+            favoriteSyncStatus = !favoriteSyncEnabled ? "Auf diesem Gerät gespeichert" : "Lokal gespeichert · Synchronisierung ausstehend"
+            onFavoritesChanged?()
+        } catch { favoriteEditingError = error.localizedDescription; manager.show(error.localizedDescription) }
+    }
+    func importLegacyFavorites() {
+        guard canImportLegacyFavorites, let owner = favoriteOwner else { return }
+        do {
+            let legacy = try legacyFavoritesStore.load()
+            editFavorites { library in
+                var ids = Set(library.contacts.map(\.id))
+                let additions = legacy.filter { ids.insert($0.id).inserted }
+                library.groups[library.groups.firstIndex(where: \.isGeneral)!].contacts.append(contentsOf: additions)
+            }
+            if favoriteEditingError == nil {
+                favoritesDefaults.set(owner, forKey: "fonoo.favorites.legacyOwner")
+                objectWillChange.send()
+            }
+        } catch { favoriteEditingError = error.localizedDescription; manager.show(error.localizedDescription) }
+    }
+    func createFavoriteGroup(_ name: String) { editFavorites { try $0.addGroup(name) } }
+    func renameFavoriteGroup(_ id: String, name: String) { editFavorites { try $0.renameGroup(id, name: name) } }
+    func deleteFavoriteGroup(_ id: String) { editFavorites { try $0.deleteGroup(id) } }
+    func moveFavoriteGroups(from offsets: IndexSet, to destination: Int) {
+        editFavorites { try $0.moveGroups(from: offsets, to: destination) }
+    }
+    func moveFavorites(in groupID: String, from offsets: IndexSet, to destination: Int) {
+        editFavorites { try $0.moveContacts(in: groupID, from: offsets, to: destination) }
+    }
+    func assignFavorite(_ contactID: String, to groupID: String) { editFavorites { try $0.assign(contactID, to: groupID) } }
+    func toggleFavorite(_ contact: Contact) { editFavorites { $0.toggle(contact) } }
+    func setFavoriteSyncStatus(_ status: String, owner: String) {
+        guard favoriteOwner == owner, favoriteSyncEnabled else { return }; favoriteSyncStatus = status
+    }
+    func observeCloudFavorites(_ snapshot: CloudFavoriteSnapshot) throws {
+        guard favoriteOwner == snapshot.user_id, favoriteSyncEnabled else { throw CancellationError() }
+        var state = favoriteState; try state.observe(snapshot); try saveFavorites(state)
+        favoriteSyncStatus = state.conflict != nil ? "Auf einem anderen Gerät geändert. Deine lokalen Änderungen bleiben erhalten."
+            : state.dirty ? "Lokal gespeichert · Synchronisierung ausstehend" : "Mit deinem Fonoo-Konto synchronisiert"
+    }
+    func favoriteUpload(owner: String) throws -> (revision: Int64, library: FavoriteLibrary)? {
+        guard favoriteOwner == owner, favoriteSyncEnabled, favoriteState.dirty, favoriteState.conflict == nil, let revision = favoriteState.revision else { return nil }
+        var state = favoriteState; state.attempt = state.library; try saveFavorites(state)
+        return (revision, state.library)
+    }
+    func acknowledgeFavorites(_ snapshot: CloudFavoriteSnapshot, sent: FavoriteLibrary) throws {
+        guard favoriteOwner == snapshot.user_id, favoriteSyncEnabled else { throw CancellationError() }
+        var state = favoriteState; try state.acknowledged(snapshot, sent: sent); try saveFavorites(state)
+        favoriteSyncStatus = state.dirty ? "Lokal gespeichert · Synchronisierung ausstehend" : "Mit deinem Fonoo-Konto synchronisiert"
+        if state.dirty { onFavoritesChanged?() }
+    }
+    func mergeFavoriteConflict() {
+        do {
+            var state = favoriteState; try state.mergeConflict(); try saveFavorites(state)
+            favoriteSyncStatus = "Zusammengeführt · Synchronisierung ausstehend"; onFavoritesChanged?()
+        } catch { manager.show(error.localizedDescription) }
     }
 }
