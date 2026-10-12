@@ -93,7 +93,7 @@ final class PhoneStore: ObservableObject {
     #if DEBUG
     /// Isolated UI fixture: no saved account, registration, history or contacts.
     init(previewCore: SIPCore) {
-        favoritePersistence = FavoriteLibraryStore(directory: FileManager.default.temporaryDirectory.appendingPathComponent("fonoo-preview-favorites-" + UUID().uuidString, isDirectory: true))
+        favoritePersistence = FavoriteLibraryStore(directory: FileManager.default.temporaryDirectory.appendingPathComponent("fonu-preview-favorites-" + UUID().uuidString, isDirectory: true))
         favoriteStore = favoritePersistence
         favoriteState = FavoriteLibraryState(owner: "preview")
         connection = nil

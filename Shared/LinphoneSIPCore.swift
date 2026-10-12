@@ -171,7 +171,7 @@ final class LinphoneSIPCore: SIPCore {
         value.videoCaptureEnabled = false
         value.videoDisplayEnabled = false
         value.maxCalls = 2 // One original call plus one explicitly requested consultation.
-        value.setUserAgent(name: "fonoo", version: "0.1")
+        value.setUserAgent(name: "fonu", version: "0.1")
         Self.configureSpeechAudio(value)
         // Use the CA bundle shipped by the pinned SDK explicitly, rather than
         // relying on its platform-dependent default resource discovery.
@@ -576,7 +576,7 @@ final class LinphoneSIPCore: SIPCore {
         guard systemCallAudio else { return }
         core?.activateAudioSession(activated: active)
     }
-    private func fonooCallID(_ call: Call) -> String? {
+    private func fonuCallID(_ call: Call) -> String? {
         let header = call.remoteParams?.getCustomHeader(headerName: "X-Fonoo-Call-ID") ?? ""
         if header.range(of: "^[0-9a-f]{32}$", options: .regularExpression) != nil { return header }
         return call.callLog?.callId
@@ -676,7 +676,7 @@ final class LinphoneSIPCore: SIPCore {
         default: return
         }
         let event = SIPCallEvent(id: id, number: call.remoteAddress?.username ?? "Unbekannt",
-            displayName: call.remoteAddress?.displayName ?? "", state: mapped, signalingID: fonooCallID(call))
+            displayName: call.remoteAddress?.displayName ?? "", state: mapped, signalingID: fonuCallID(call))
         // Remove before notifying: the manager may start another call from an end event.
         if state == .End || state == .Error {
             finishAudioTrace(id: id)

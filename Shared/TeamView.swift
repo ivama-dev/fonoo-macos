@@ -3,14 +3,14 @@ import SwiftUI
 private enum TeamStyle {
     static var accent: Color {
         #if os(iOS)
-        FonooStyle.accent
+        fonuStyle.accent
         #else
         MacStyle.accent
         #endif
     }
     static var background: Color {
         #if os(iOS)
-        FonooStyle.background
+        fonuStyle.background
         #else
         Color(nsColor: .windowBackgroundColor)
         #endif

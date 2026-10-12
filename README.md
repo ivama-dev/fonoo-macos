@@ -1,6 +1,6 @@
 # fonu für macOS
 
-Native SwiftUI/AppKit-App ab macOS 14, Bundle-ID `app.fonoo.macos`, Scheme **FonooMac**. Kein Catalyst. Dieses Repository enthält die Mac-App samt benötigten gemeinsamen Apple-Dateien, Assets, isolierten Prüfungen und Hersteller-Lizenzen. Ein zweiter iOS-Checkout ist zum Bauen nicht erforderlich.
+Native SwiftUI/AppKit-App ab macOS 14, Bundle-ID `app.fonoo.macos`, Scheme **fonuMac**. Kein Catalyst. Dieses Repository enthält die Mac-App samt benötigten gemeinsamen Apple-Dateien, Assets, isolierten Prüfungen und Hersteller-Lizenzen. Ein zweiter iOS-Checkout ist zum Bauen nicht erforderlich.
 
 ## Bauen und prüfen
 
@@ -14,7 +14,7 @@ bash macos/Checks/run-menu-bar-checks.sh
 ./macos/build.sh
 ```
 
-Die gebaute App liegt standardmäßig unter `/private/tmp/FonooMacNativeBuild/Build/Products/Debug/fonoo.app`. Bei synchronisierten Dokumentenordnern aus einer sauberen lokalen Quellkopie ohne Finder-Metadaten bauen. Intel, Notarisierung und ein echter Headset-Hörvergleich sind gesondert zu prüfen.
+Die gebaute App liegt standardmäßig unter `/private/tmp/fonuMacNativeBuild/Build/Products/Debug/fonu.app`. Bei synchronisierten Dokumentenordnern aus einer sauberen lokalen Quellkopie ohne Finder-Metadaten bauen. Intel, Notarisierung und ein echter Headset-Hörvergleich sind gesondert zu prüfen.
 
 ## Menüleiste und Hintergrundbetrieb
 
@@ -43,14 +43,14 @@ Build **30** (macOS) enthält die automatische Synchronisierung. Gemeinsame Swif
 Echte Geräteabnahme zwischen iPhone, Mac und Windows bleibt erforderlich. Ein erfolgreicher Quellbuild bestätigt keine Veröffentlichung in TestFlight oder im Windows Store.
 
 
-- `macos/FonooMac/`: Oberfläche, Geräte-/Headset-Wahl, Gesprächsfenster und Menüleistenstatus.
+- `macos/fonuMac/`: Oberfläche, Geräte-/Headset-Wahl, Gesprächsfenster und Menüleistenstatus.
 - `Shared/`: die von der Mac-App verwendeten gemeinsamen Apple-Dateien; ursprüngliches Verhalten bleibt erhalten.
 - `Checks/`: gemeinsame Verbindungs-, Konto-, Profil-, Präsenz- und Anrufhistorienprüfungen.
 - `macos/Checks/`: Mac-Audiogeräte- und SDK-Laufzeitprüfungen.
 
 Liblinphone 5.5.23 bleibt die einzige Telefonie-Engine. Team, Profile, Präsenz, Anrufhistorie, Weiterleitungen, Anmeldung und Audioverarbeitung bleiben erhalten. Der Kontoserver wird separat verwaltet.
 
-Die [iOS-App](https://github.com/ivama-dev/fonu-ios) ist die Referenz für die gemeinsamen Dateien. Mit `python3 scripts/sync-shared-from-ios.py --source ../fonoo-ios --check` lässt sich ihr Stand vergleichen. Ohne `--check` werden freigegebene Änderungen übernommen; lokal geänderte gemeinsame Dateien werden nicht überschrieben. Anschließend beide Apps bauen und ihre Prüfungen ausführen. Die Herkunft und Dateihashes stehen in `Shared/upstream.json`.
+Die [iOS-App](https://github.com/ivama-dev/fonu-ios) ist die Referenz für die gemeinsamen Dateien. Mit `python3 scripts/sync-shared-from-ios.py --source ../fonu-ios --check` lässt sich ihr Stand vergleichen. Ohne `--check` werden freigegebene Änderungen übernommen; lokal geänderte gemeinsame Dateien werden nicht überschrieben. Anschließend beide Apps bauen und ihre Prüfungen ausführen. Die Herkunft und Dateihashes stehen in `Shared/upstream.json`.
 
 Die [Mac-Oberfläche als Referenz für Windows](macos/WINDOWS-UI-REFERENZ.md) bleibt enthalten.
 
@@ -64,4 +64,4 @@ Die fonu-macOS-App steht wie der Windows-Client unter **GNU Affero General Publi
 
 ## Markenname und technische Kompatibilität
 
-Seit 12. Oktober 2026 lautet der Marken- und Repository-Name **fonu**. Sichtbare Texte und GitHub-Verweise verwenden den neuen Namen. Bestehende technische Kennungen mit `fonoo`/`Fonoo` (unter anderem Bundle-/Store-IDs, Xcode-Schemes, Quellpfade, Push-Felder und lokale Datenablagen) bleiben zur Kompatibilität erhalten. Auch bisherige Server-, API-, E-Mail- und Deep-Link-Adressen gelten weiter, bis sie separat migriert werden. Historische Betriebsnachweise dokumentieren den damaligen Stand. Diese Änderung veröffentlicht keine neue App-Version und führt kein Server-Deployment aus.
+Seit 12. Oktober 2026 lautet der Marken- und Repository-Name **fonu**. Die Xcode-Projekte, Targets, Schemes, Quellordner und Swift-Namen verwenden ebenfalls fonu. Sichtbare Texte und GitHub-Verweise verwenden den neuen Namen. Bestehende technische Kennungen mit `fonu`/`fonu` (unter anderem Bundle-/Store-IDs, Push-Felder und lokale Datenablagen) bleiben zur Kompatibilität erhalten. Auch bisherige Server-, API-, E-Mail- und Deep-Link-Adressen gelten weiter, bis sie separat migriert werden. Historische Betriebsnachweise dokumentieren den damaligen Stand. Diese Änderung veröffentlicht keine neue App-Version und führt kein Server-Deployment aus.

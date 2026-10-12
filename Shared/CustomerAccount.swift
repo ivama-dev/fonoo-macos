@@ -941,7 +941,7 @@ struct CustomerAccountView: View {
     var body: some View {
         Form {
             Section {
-                FonooWordmark(size: 38)
+                fonuWordmark(size: 38)
                 Text(customer.signedIn ? "Dein Konto" : "Willkommen bei fonu").font(.title2.bold())
                 Text(customer.signedIn ? customer.email : "Erstelle dein Konto oder melde dich mit deiner E-Mail-Adresse an.").foregroundStyle(.secondary)
             }
@@ -1020,7 +1020,7 @@ struct CustomerAccountView: View {
             if !customer.message.isEmpty { Section { Text(customer.message).font(.callout).accessibilityLabel(customer.message) } }
         }
         .disabled(customer.busy)
-        .scrollContentBackground(.hidden).background(FonooStyle.background)
+        .scrollContentBackground(.hidden).background(fonuStyle.background)
         .navigationTitle("fonu-Konto").navigationBarTitleDisplayMode(.inline)
         .task { await customer.refresh() }
         .onChange(of: scenePhase) { _, phase in if phase == .active { Task { await customer.refresh() } } }

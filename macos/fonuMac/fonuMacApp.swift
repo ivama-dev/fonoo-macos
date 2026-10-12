@@ -272,7 +272,7 @@ final class MacAppDelegate: NSObject, NSApplicationDelegate {
 }
 
 @main
-struct FonooMacApp: App {
+struct fonuMacApp: App {
     @NSApplicationDelegateAdaptor(MacAppDelegate.self) private var delegate
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.openWindow) private var openWindow

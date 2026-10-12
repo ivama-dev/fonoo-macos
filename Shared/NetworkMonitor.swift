@@ -5,7 +5,7 @@ import Network
 final class NetworkMonitor {
     var onChange: ((Bool, String) -> Void)?
     private let monitor = NWPathMonitor()
-    private let queue = DispatchQueue(label: "Fonoo.NetworkMonitor")
+    private let queue = DispatchQueue(label: "fonu.NetworkMonitor")
     init() {
         monitor.pathUpdateHandler = { [weak self] path in
             let available = path.status == .satisfied

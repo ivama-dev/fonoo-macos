@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 cd "$(dirname "$0")/.."
-CHECK_BUILD_DIR="${FONOO_CHECK_BUILD_DIR:-build/checks}"
+CHECK_BUILD_DIR="${FONU_CHECK_BUILD_DIR:-build/checks}"
 mkdir -p "$CHECK_BUILD_DIR/module-cache"
 swiftc -parse-as-library -module-cache-path "$CHECK_BUILD_DIR/module-cache" \
   Shared/CallSession.swift Shared/SIPAccount.swift Shared/SIPCore.swift Shared/Diagnostics.swift \
@@ -22,7 +22,7 @@ swiftc -parse-as-library -module-cache-path "$CHECK_BUILD_DIR/module-cache" \
   Shared/CallSession.swift Shared/SIPAccount.swift Shared/SIPCore.swift Shared/Diagnostics.swift \
   Shared/IncomingCallCoordinator.swift Checks/IncomingCallChecks.swift -o "$CHECK_BUILD_DIR/IncomingCallChecks"
 "$CHECK_BUILD_DIR/IncomingCallChecks"
-plutil -lint macos/FonooMac.xcodeproj/project.pbxproj
+plutil -lint macos/fonuMac.xcodeproj/project.pbxproj
 
 swiftc -parse-as-library -module-cache-path "$CHECK_BUILD_DIR/module-cache" \
   Shared/CallSession.swift Checks/CallHistoryChecks.swift -o "$CHECK_BUILD_DIR/CallHistoryChecks"

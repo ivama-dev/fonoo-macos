@@ -23,11 +23,11 @@ jobs:
           persist-credentials: false
       - name: Check shared Mac models
         env:
-          FONOO_CHECK_BUILD_DIR: ${{ runner.temp }}/FonooMacModels
+          FONU_CHECK_BUILD_DIR: ${{ runner.temp }}/fonuMacModels
         run: bash Checks/run-checks.sh
       - name: Check account provisioning
         run: python3 Checks/customer-provisioning-checks.py
       - name: Check Mac audio device models
         env:
-          FONOO_DEVICE_CHECK_DIR: ${{ runner.temp }}/FonooMacAudioModels
+          FONU_DEVICE_CHECK_DIR: ${{ runner.temp }}/fonuMacAudioModels
         run: bash macos/Checks/run-device-checks.sh

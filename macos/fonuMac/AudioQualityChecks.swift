@@ -28,7 +28,7 @@ enum AudioQualityChecks {
             index + 1 < arguments.count ? arguments[index + 1] : nil
         }
         let root = requestedPath.map { URL(fileURLWithPath: $0, isDirectory: true) }
-            ?? FileManager.default.temporaryDirectory.appendingPathComponent("fonoo-audio-" + UUID().uuidString)
+            ?? FileManager.default.temporaryDirectory.appendingPathComponent("fonu-audio-" + UUID().uuidString)
         try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
         defer { if requestedPath == nil { try? FileManager.default.removeItem(at: root) } }
         bctbx_set_log_handler { _, _, _, _ in }

@@ -1,17 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 cd "$(dirname "$0")/../.."
-MAC_BUILD_DIR="${FONOO_MAC_BUILD_DIR:-/private/tmp/FonooMacNativeBuild}"
-AUDIO_REPORT_DIR="${FONOO_AUDIO_REPORT_DIR:-$PWD/build/audio-resilience}"
-APP="$MAC_BUILD_DIR/Build/Products/Debug/fonoo.app"
+MAC_BUILD_DIR="${FONU_MAC_BUILD_DIR:-/private/tmp/fonuMacNativeBuild}"
+AUDIO_REPORT_DIR="${FONU_AUDIO_REPORT_DIR:-$PWD/build/audio-resilience}"
+APP="$MAC_BUILD_DIR/Build/Products/Debug/fonu.app"
 codesign --verify --deep --strict "$APP"
 mkdir -p "$AUDIO_REPORT_DIR"
 # Let the sandboxed app use its private temporary directory. The runner exports
 # only its synthetic measurements; generated audio files are removed by the app.
-"$APP/Contents/MacOS/fonoo" --check-audio | tee "$AUDIO_REPORT_DIR/checks.jsonl"
+"$APP/Contents/MacOS/fonu" --check-audio | tee "$AUDIO_REPORT_DIR/checks.jsonl"
 # Below the profile's continuous media budget: measure degradation honestly,
 # while still requiring the same call to survive and recover once restored.
-"$APP/Contents/MacOS/fonoo" --check-audio --audio-case overloaded-link | tee "$AUDIO_REPORT_DIR/overload.jsonl"
+"$APP/Contents/MacOS/fonu" --check-audio --audio-case overloaded-link | tee "$AUDIO_REPORT_DIR/overload.jsonl"
 python3 - "$AUDIO_REPORT_DIR" <<'PY'
 import json,sys
 from pathlib import Path

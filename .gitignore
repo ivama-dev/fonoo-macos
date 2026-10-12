@@ -41,7 +41,7 @@ admin-auth.json
 admin-bootstrap.token
 *.cred
 *.token
-Fonoo-Admin-Ersteinrichtung.txt
+fonu-Admin-Ersteinrichtung.txt
 Local.xcconfig
 TestAccount.json
 parameters.pilot.json
@@ -51,3 +51,4 @@ parameters.pilot.json
 xcuserdata/
 *.xcuserstate
 *.xcuserdatad/
+Fonoo-Admin-Ersteinrichtung.txt

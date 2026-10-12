@@ -6,7 +6,7 @@ import tempfile
 
 root = Path(__file__).resolve().parents[1]
 if not (root / 'Shared').is_dir(): root = root.parent
-sources = root / 'Shared' if (root / 'Shared').is_dir() else root / 'ios/Fonoo' 
+sources = root / 'Shared' if (root / 'Shared').is_dir() else root / 'ios/fonu'
 phone = (sources / 'PhoneStore.swift').read_text()
 methods = phone[phone.index('    /// Capture the pre-upgrade account'):].rsplit('}', 1)[0]
 customer = (sources / 'CustomerAccount.swift').read_text()
@@ -209,7 +209,7 @@ private extension CloudFavoritesSync {
     }
 }
 '''
-with tempfile.TemporaryDirectory(prefix='fonoo-favorite-checks-') as directory:
+with tempfile.TemporaryDirectory(prefix='fonu-favorite-checks-') as directory:
     temp = Path(directory)
     source = temp / 'Checks.swift'
     source.write_text(stub + methods + '}\n' + worker + checks)

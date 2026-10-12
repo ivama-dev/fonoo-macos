@@ -6,11 +6,11 @@ Stand: 9. Oktober 2026. `main` enthält den aktuellen nativen macOS-Quellcode un
 
 | Bereich | Quelldatei |
 | --- | --- |
-| Seitenleiste, Navigation, Anmeldung, Wählen, Favoriten, Anrufliste, Kontakte, Audio-Einstellungen und große Gesprächsansicht | [`FonooMac/MacViews.swift`](FonooMac/MacViews.swift) |
-| Kleines Gesprächsfenster beim Minimieren, Fensterverhalten und Gesprächsaktionen | [`FonooMac/MacMiniCallWindow.swift`](FonooMac/MacMiniCallWindow.swift) |
-| Menüleistenstatus und Gesprächsaktionen außerhalb des Hauptfensters | [`FonooMac/MacCallStatusItem.swift`](FonooMac/MacCallStatusItem.swift) |
-| Gemeinsamer Gesprächsstatus, Dauer und tatsächlicher Audiopegel | [`FonooMac/MacCallActivity.swift`](FonooMac/MacCallActivity.swift) |
-| Gerätewahl und Mikrofonpegel | [`FonooMac/MacAudioManager.swift`](FonooMac/MacAudioManager.swift) |
+| Seitenleiste, Navigation, Anmeldung, Wählen, Favoriten, Anrufliste, Kontakte, Audio-Einstellungen und große Gesprächsansicht | [`fonuMac/MacViews.swift`](fonuMac/MacViews.swift) |
+| Kleines Gesprächsfenster beim Minimieren, Fensterverhalten und Gesprächsaktionen | [`fonuMac/MacMiniCallWindow.swift`](fonuMac/MacMiniCallWindow.swift) |
+| Menüleistenstatus und Gesprächsaktionen außerhalb des Hauptfensters | [`fonuMac/MacCallStatusItem.swift`](fonuMac/MacCallStatusItem.swift) |
+| Gemeinsamer Gesprächsstatus, Dauer und tatsächlicher Audiopegel | [`fonuMac/MacCallActivity.swift`](fonuMac/MacCallActivity.swift) |
+| Gerätewahl und Mikrofonpegel | [`fonuMac/MacAudioManager.swift`](fonuMac/MacAudioManager.swift) |
 | Firmenverzeichnis, Personen, Erreichbarkeit und persönliche Verfügbarkeit | [`../Shared/TeamView.swift`](../Shared/TeamView.swift) |
 | Datenmodelle und API-Abgleich für das Firmenverzeichnis | [`../Shared/TeamMember.swift`](../Shared/TeamMember.swift), [`../Shared/TeamDirectory.swift`](../Shared/TeamDirectory.swift) |
 | Kontozustand, Anmeldung und Cloud-Provisionierung | [`../Shared/CustomerAccount.swift`](../Shared/CustomerAccount.swift) |
@@ -22,7 +22,7 @@ fonu-Violett ist in `MacStyle.accent` definiert: RGB `(0.43, 0.29, 0.85)`. Annah
 
 ## Vorschau und Prüfung ohne Telefoniekonto
 
-Das Xcode-Projekt liegt unter `FonooMac.xcodeproj`, Scheme **FonooMac**, Mindestversion macOS 14. Linphone ist über Swift Package Manager auf 5.5.23 festgelegt; HIDAPI-Quellcode und Lizenzen liegen unter `Vendor/hidapi/`.
+Das Xcode-Projekt liegt unter `fonuMac.xcodeproj`, Scheme **fonuMac**, Mindestversion macOS 14. Linphone ist über Swift Package Manager auf 5.5.23 festgelegt; HIDAPI-Quellcode und Lizenzen liegen unter `Vendor/hidapi/`.
 
 ```sh
 ./macos/build.sh

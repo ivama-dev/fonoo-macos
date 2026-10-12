@@ -113,7 +113,7 @@ private extension CloudCallHistorySync {
     }
 }
 '''
-with tempfile.TemporaryDirectory(prefix='fonoo-history-sync-') as directory:
+with tempfile.TemporaryDirectory(prefix='fonu-history-sync-') as directory:
     folder = Path(directory)
     harness = folder / 'HistorySyncChecks.swift'
     harness.write_text(stub + controller + checks)

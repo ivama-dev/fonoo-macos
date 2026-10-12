@@ -53,13 +53,13 @@
 			<key>isa</key>
 			<string>PBXNativeTarget</string>
 			<key>name</key>
-			<string>FonooMac</string>
+			<string>fonuMac</string>
 			<key>packageProductDependencies</key>
 			<array>
 				<string>4550252E496883E654EB6653</string>
 			</array>
 			<key>productName</key>
-			<string>fonoo</string>
+			<string>fonu</string>
 			<key>productReference</key>
 			<string>38A007151ABE87CC01A5B6E9</string>
 			<key>productType</key>
@@ -79,7 +79,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
 			<key>path</key>
-			<string>FonooMac/MacCallActivity.swift</string>
+			<string>fonuMac/MacCallActivity.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -160,7 +160,7 @@
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>path</key>
-			<string>fonoo.app</string>
+			<string>fonu.app</string>
 			<key>sourceTree</key>
 			<string>BUILT_PRODUCTS_DIR</string>
 		</dict>
@@ -171,7 +171,7 @@
 			<key>lastKnownFileType</key>
 			<string>folder.assetcatalog</string>
 			<key>path</key>
-			<string>FonooMac/Assets.xcassets</string>
+			<string>fonuMac/Assets.xcassets</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -245,7 +245,7 @@
 				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
 				<string>AppIcon</string>
 				<key>CODE_SIGN_ENTITLEMENTS</key>
-				<string>FonooMac/FonooMac.entitlements</string>
+				<string>fonuMac/fonuMac.entitlements</string>
 				<key>CODE_SIGN_STYLE</key>
 				<string>Automatic</string>
 				<key>COMBINE_HIDPI_IMAGES</key>
@@ -261,7 +261,7 @@
 				<key>GENERATE_INFOPLIST_FILE</key>
 				<string>NO</string>
 				<key>INFOPLIST_FILE</key>
-				<string>FonooMac/Info.plist</string>
+				<string>fonuMac/Info.plist</string>
 				<key>LD_RUNPATH_SEARCH_PATHS</key>
 				<array>
 					<string>$(inherited)</string>
@@ -276,7 +276,7 @@
 				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
 				<string>app.fonoo.macos</string>
 				<key>PRODUCT_NAME</key>
-				<string>fonoo</string>
+				<string>fonu</string>
 				<key>SDKROOT</key>
 				<string>macosx</string>
 				<key>SUPPORTED_PLATFORMS</key>
@@ -325,7 +325,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
 			<key>path</key>
-			<string>FonooMac/MacViews.swift</string>
+			<string>fonuMac/MacViews.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -464,7 +464,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
 			<key>path</key>
-			<string>FonooMac/AudioQualityChecks.swift</string>
+			<string>fonuMac/AudioQualityChecks.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -571,7 +571,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
 			<key>path</key>
-			<string>FonooMac/MacCallPreviewCore.swift</string>
+			<string>fonuMac/MacCallPreviewCore.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -625,7 +625,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
 			<key>path</key>
-			<string>FonooMac/MacAudioManager.swift</string>
+			<string>fonuMac/MacAudioManager.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -710,7 +710,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
 			<key>path</key>
-			<string>FonooMac/FonooMacApp.swift</string>
+			<string>fonuMac/fonuMacApp.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -761,7 +761,7 @@
 				<key>ASSETCATALOG_COMPILER_APPICON_NAME</key>
 				<string>AppIcon</string>
 				<key>CODE_SIGN_ENTITLEMENTS</key>
-				<string>FonooMac/FonooMac.entitlements</string>
+				<string>fonuMac/fonuMac.entitlements</string>
 				<key>CODE_SIGN_STYLE</key>
 				<string>Automatic</string>
 				<key>COMBINE_HIDPI_IMAGES</key>
@@ -777,7 +777,7 @@
 				<key>GENERATE_INFOPLIST_FILE</key>
 				<string>NO</string>
 				<key>INFOPLIST_FILE</key>
-				<string>FonooMac/Info.plist</string>
+				<string>fonuMac/Info.plist</string>
 				<key>LD_RUNPATH_SEARCH_PATHS</key>
 				<array>
 					<string>$(inherited)</string>
@@ -790,7 +790,7 @@
 				<key>PRODUCT_BUNDLE_IDENTIFIER</key>
 				<string>app.fonoo.macos</string>
 				<key>PRODUCT_NAME</key>
-				<string>fonoo</string>
+				<string>fonu</string>
 				<key>SDKROOT</key>
 				<string>macosx</string>
 				<key>SUPPORTED_PLATFORMS</key>
@@ -814,7 +814,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
 			<key>path</key>
-			<string>FonooMac/MacCallStatusItem.swift</string>
+			<string>fonuMac/MacCallStatusItem.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -942,7 +942,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
 			<key>path</key>
-			<string>FonooMac/MacMiniCallWindow.swift</string>
+			<string>fonuMac/MacMiniCallWindow.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
@@ -996,7 +996,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
 			<key>path</key>
-			<string>FonooMac/MacDiagnosticsView.swift</string>
+			<string>fonuMac/MacDiagnosticsView.swift</string>
 			<key>sourceTree</key>
 			<string>SOURCE_ROOT</string>
 		</dict>
@@ -1014,7 +1014,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
 			<key>path</key>
-			<string>FonooMac/MacDialpadFeedback.swift</string>
+			<string>fonuMac/MacDialpadFeedback.swift</string>
 			<key>sourceTree</key>
 			<string>SOURCE_ROOT</string>
 		</dict>
@@ -1050,7 +1050,7 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.swift</string>
 			<key>path</key>
-			<string>FonooMac/MacMenuBarPlacement.swift</string>
+			<string>fonuMac/MacMenuBarPlacement.swift</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
