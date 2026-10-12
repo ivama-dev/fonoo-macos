@@ -25,7 +25,7 @@
     {
       "source": "ios/Fonoo/CustomerAccount.swift",
       "destination": "Shared/CustomerAccount.swift",
-      "sha256": "969c4bc4e164898f78b5d9734b1f8851db3e502ff34fc64729d3531b65b660f7"
+      "sha256": "f5cd8681c9cbce5d5f3ca317d81ec399f13e22bb9383ab6fee4d825d0077a71b"
     },
     {
       "source": "ios/Fonoo/DeviceContact.swift",
@@ -55,7 +55,7 @@
     {
       "source": "ios/Fonoo/PhoneStore.swift",
       "destination": "Shared/PhoneStore.swift",
-      "sha256": "09e4b3fe13c9d42df9dc1b5164c11f37410b7d07b54a665b7f70417b5abf1df3"
+      "sha256": "22a34e0f586bdeae565d73bf3ae52c49801d5c85610b8cbbeda3ab55ee61c7fd"
     },
     {
       "source": "ios/Fonoo/PrivacyInfo.xcprivacy",

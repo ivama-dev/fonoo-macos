@@ -509,7 +509,7 @@ final class PhoneStore: ObservableObject {
         guard favoriteOwner == snapshot.user_id, favoriteSyncEnabled else { throw CancellationError() }
         var state = favoriteState; try state.observe(snapshot); try saveFavorites(state)
         favoriteSyncStatus = state.conflict != nil ? "Auf einem anderen Gerät geändert. Deine lokalen Änderungen bleiben erhalten."
-            : state.dirty ? "Lokal gespeichert · Synchronisierung ausstehend" : "Mit deinem Fonu-Konto synchronisiert"
+            : state.dirty ? "Lokal gespeichert · Synchronisierung ausstehend" : "Mit deinem fonu-Konto synchronisiert"
     }
     func favoriteUpload(owner: String) throws -> (revision: Int64, library: FavoriteLibrary)? {
         guard favoriteOwner == owner, favoriteSyncEnabled, favoriteState.dirty, favoriteState.conflict == nil, let revision = favoriteState.revision else { return nil }
@@ -519,7 +519,7 @@ final class PhoneStore: ObservableObject {
     func acknowledgeFavorites(_ snapshot: CloudFavoriteSnapshot, sent: FavoriteLibrary) throws {
         guard favoriteOwner == snapshot.user_id, favoriteSyncEnabled else { throw CancellationError() }
         var state = favoriteState; try state.acknowledged(snapshot, sent: sent); try saveFavorites(state)
-        favoriteSyncStatus = state.dirty ? "Lokal gespeichert · Synchronisierung ausstehend" : "Mit deinem Fonu-Konto synchronisiert"
+        favoriteSyncStatus = state.dirty ? "Lokal gespeichert · Synchronisierung ausstehend" : "Mit deinem fonu-Konto synchronisiert"
         if state.dirty { onFavoritesChanged?() }
     }
     func mergeFavoriteConflict() {

@@ -843,10 +843,10 @@ final class CustomerAccount: ObservableObject {
             let tenant_id, device_id: String
             let capabilities = ["fonoo.cloud.v1", "srtp.required"]
             #if os(macOS)
-            let device_name = "Fonu auf dem Mac"
+            let device_name = "fonu auf dem Mac"
             let device_type = "desktop_app"
             #else
-            let device_name = "Fonu auf dem iPhone"
+            let device_name = "fonu auf dem iPhone"
             let device_type = "mobile_app"
             #endif
         }
