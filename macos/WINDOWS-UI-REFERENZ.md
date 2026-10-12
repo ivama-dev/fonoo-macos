@@ -18,7 +18,7 @@ Stand: 9. Oktober 2026. `main` enthält den aktuellen nativen macOS-Quellcode un
 
 Die regulären Navigationspunkte heißen **Wählen**, **Favoriten**, **Anrufliste**, **Kontakte**, **Team** und **Konto**. Während eines Anrufs kommt **Gespräch** hinzu. Hauptfenster, kleines Gesprächsfenster und Menüleistenstatus verwenden denselben Gesprächszustand und denselben gemessenen Pegelverlauf.
 
-fonoo-Violett ist in `MacStyle.accent` definiert: RGB `(0.43, 0.29, 0.85)`. Annahme ist grün; Auflegen und Ablehnen sind rot. Stumm und Halten erhalten eine sichtbare Auswahlmarkierung. Native Systemdarstellung, Tastaturbedienung und zugängliche Zustandsangaben gehören zum aktuellen Verhalten.
+fonu-Violett ist in `MacStyle.accent` definiert: RGB `(0.43, 0.29, 0.85)`. Annahme ist grün; Auflegen und Ablehnen sind rot. Stumm und Halten erhalten eine sichtbare Auswahlmarkierung. Native Systemdarstellung, Tastaturbedienung und zugängliche Zustandsangaben gehören zum aktuellen Verhalten.
 
 ## Vorschau und Prüfung ohne Telefoniekonto
 

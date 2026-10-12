@@ -1,8 +1,8 @@
 # Copyright und Drittanbieter
 
-Copyright (C) 2026 fonoo contributors.
+Copyright (C) 2026 fonu contributors.
 
-Der ursprüngliche fonoo-macOS-App-Code und das zugehörige Projektmaterial in diesem Repository stehen unter der **GNU Affero General Public License, Version 3 oder (nach eigener Wahl) jeder späteren Version** (`AGPL-3.0-or-later`), ohne Gewährleistung. Siehe [LICENSE](LICENSE). fonoo-Namen und Marken erteilen keine Zustimmung oder Berechtigung, geänderte Software als offizielle fonoo-Veröffentlichung auszugeben.
+Der ursprüngliche fonu-macOS-App-Code und das zugehörige Projektmaterial in diesem Repository stehen unter der **GNU Affero General Public License, Version 3 oder (nach eigener Wahl) jeder späteren Version** (`AGPL-3.0-or-later`), ohne Gewährleistung. Siehe [LICENSE](LICENSE). fonu-Namen und Marken erteilen keine Zustimmung oder Berechtigung, geänderte Software als offizielle fonu-Veröffentlichung auszugeben.
 
 Drittanbieter behalten ihre eigenen Urheberrechte und Lizenzen. Die Projektlizenz lizenziert Drittanbieter-Software nicht neu:
 

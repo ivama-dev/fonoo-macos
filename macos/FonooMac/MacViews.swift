@@ -40,7 +40,7 @@ struct MacRootView: View {
         NavigationSplitView(columnVisibility: $columnVisibility) {
             VStack(alignment: .leading, spacing: 20) {
                 HStack(alignment: .firstTextBaseline, spacing: 3) {
-                    Text("fonoo").font(.system(size: 32, weight: .heavy)).tracking(-1.5)
+                    Text("fonu").font(.system(size: 32, weight: .heavy)).tracking(-1.5)
                     Circle().fill(MacStyle.accent).frame(width: 8, height: 8)
                 }.padding(.horizontal, 16).padding(.top, 20)
                 List(selection: $destination) {
@@ -99,7 +99,7 @@ struct MacRootView: View {
                 }
             }
             .navigationTitle(phone.call != nil && destination == .conversation ? "Gespräch" :
-                (customer.needsPasswordSetup ? "Konto einrichten" : isPreview || customer.signedIn ? (destination?.rawValue ?? "fonoo") : "Anmelden"))
+                (customer.needsPasswordSetup ? "Konto einrichten" : isPreview || customer.signedIn ? (destination?.rawValue ?? "fonu") : "Anmelden"))
             .frame(minWidth: 0, maxWidth: .infinity, maxHeight: .infinity)
             .toolbar { ToolbarItemGroup { AvailabilityProfileMenu(); MacAudioMenu(isPresented: $audioPresented) } }
         }
@@ -146,7 +146,7 @@ struct MacAccountView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 22) {
                 GroupBox { SIPConnectionStatusView().frame(maxWidth: .infinity, alignment: .leading) }
-                Text(customer.signedIn ? "Dein fonoo-Konto" : "Willkommen auf deinem Mac")
+                Text(customer.signedIn ? "Dein fonu-Konto" : "Willkommen auf deinem Mac")
                     .font(.largeTitle.bold())
                 Text(customer.signedIn ? customer.email : "Melde dich an. Deine Firma und Nebenstelle werden automatisch eingerichtet.")
                     .foregroundStyle(.secondary)
@@ -180,7 +180,7 @@ struct MacAccountView: View {
                             VStack(alignment: .leading, spacing: 14) {
                                 if !customer.rememberedDevice || !customer.challenge.isEmpty {
                                     Text("Diesen Mac merken").font(.title2.bold())
-                                    Text("Bestätige diesen Mac einmal mit dem E-Mail-Code. Danach bleibt fonoo hier automatisch angemeldet.")
+                                    Text("Bestätige diesen Mac einmal mit dem E-Mail-Code. Danach bleibt fonu hier automatisch angemeldet.")
                                     if customer.challenge.isEmpty {
                                         Button("E-Mail-Code senden") { Task { await customer.sendCode() } }
                                     } else {
@@ -238,7 +238,7 @@ struct MacAccountView: View {
                     if customer.cloudMemberships.isEmpty {
                         Text("Noch keine Firma zugeordnet. Verwende dasselbe Konto wie auf deinem iPhone.")
                     }
-                    Text("Für eingehende Anrufe muss fonoo laufen und dein Mac wach sein. Du kannst das Fenster schließen; fonoo bleibt in der Menüleiste geöffnet. Gleichzeitiges Klingeln auf iPhone und Mac ist in dieser Testversion noch nicht verfügbar.")
+                    Text("Für eingehende Anrufe muss fonu laufen und dein Mac wach sein. Du kannst das Fenster schließen; fonu bleibt in der Menüleiste geöffnet. Gleichzeitiges Klingeln auf iPhone und Mac ist in dieser Testversion noch nicht verfügbar.")
                         .font(.callout).foregroundStyle(.secondary)
                     HStack {
                         Button("Status aktualisieren") { Task { await customer.refresh() } }
@@ -506,7 +506,7 @@ struct MacRecentsView: View {
         } message: { _ in
             Text(phone.manager.historyStatus.isEmpty
                  ? "Dieser Eintrag wird aus der Anrufliste auf diesem Mac gelöscht."
-                 : "Dieser Eintrag wird für dein fonoo-Konto in dieser Firma auf allen Geräten gelöscht. Die Anruflisten anderer Teammitglieder bleiben erhalten.")
+                 : "Dieser Eintrag wird für dein fonu-Konto in dieser Firma auf allen Geräten gelöscht. Die Anruflisten anderer Teammitglieder bleiben erhalten.")
         }
     }
     @ViewBuilder private func actions(for recent: RecentCall) -> some View {

@@ -471,7 +471,7 @@ final class CustomerAccount: ObservableObject {
     }
     private func enrollDeviceIfReady() async {
         #if os(macOS)
-        pushStatus = "Erreichbar, solange fonoo läuft und dein Mac wach ist."
+        pushStatus = "Erreichbar, solange fonu läuft und dein Mac wach ist."
         return
         #else
         guard signedIn, !token.isEmpty else { return }
@@ -479,7 +479,7 @@ final class CustomerAccount: ObservableObject {
            selection["endpoint_id"] == phone.account.username {
             await enrollCloudPush(selection, phone: phone)
         } else {
-            pushStatus = "Bitte zuerst deine fonoo-Cloud-Nebenstelle einrichten."
+            pushStatus = "Bitte zuerst deine fonu-Cloud-Nebenstelle einrichten."
         }
         #endif
     }
@@ -843,10 +843,10 @@ final class CustomerAccount: ObservableObject {
             let tenant_id, device_id: String
             let capabilities = ["fonoo.cloud.v1", "srtp.required"]
             #if os(macOS)
-            let device_name = "Fonoo auf dem Mac"
+            let device_name = "Fonu auf dem Mac"
             let device_type = "desktop_app"
             #else
-            let device_name = "Fonoo auf dem iPhone"
+            let device_name = "Fonu auf dem iPhone"
             let device_type = "mobile_app"
             #endif
         }
@@ -942,7 +942,7 @@ struct CustomerAccountView: View {
         Form {
             Section {
                 FonooWordmark(size: 38)
-                Text(customer.signedIn ? "Dein Konto" : "Willkommen bei fonoo").font(.title2.bold())
+                Text(customer.signedIn ? "Dein Konto" : "Willkommen bei fonu").font(.title2.bold())
                 Text(customer.signedIn ? customer.email : "Erstelle dein Konto oder melde dich mit deiner E-Mail-Adresse an.").foregroundStyle(.secondary)
             }
             if !customer.signedIn {
@@ -1013,7 +1013,7 @@ struct CustomerAccountView: View {
                     NavigationLink("Diagnose und SIP-Protokolle") { DiagnosticsView(diagnostics: phone.diagnostics) }
                 }
                 Section {
-                    Button("Vom fonoo-Konto abmelden") { Task { await customer.signOut() } }
+                    Button("Vom fonu-Konto abmelden") { Task { await customer.signOut() } }
                 } footer: { Text("Die Telefonie wird auf diesem iPhone abgemeldet. Deine Firma und Benutzer bleiben bestehen.") }
             }
             if customer.busy { ProgressView("Bitte warten …") }
@@ -1021,7 +1021,7 @@ struct CustomerAccountView: View {
         }
         .disabled(customer.busy)
         .scrollContentBackground(.hidden).background(FonooStyle.background)
-        .navigationTitle("fonoo-Konto").navigationBarTitleDisplayMode(.inline)
+        .navigationTitle("fonu-Konto").navigationBarTitleDisplayMode(.inline)
         .task { await customer.refresh() }
         .onChange(of: scenePhase) { _, phase in if phase == .active { Task { await customer.refresh() } } }
         .onDisappear { customer.password = "" }
@@ -1297,7 +1297,7 @@ private final class CloudCallHistorySync {
         if let cached = try? JSONDecoder().decode(CloudHistoryPayload.self, from: Data(contentsOf: cacheURL(next))),
            !cached.not_modified, let rows = try? cached.validated(tenant: next.tenant, user: next.user) {
             snapshot = cached
-            manager?.applyCloudHistory(rows, status: "fonoo-Konto · gespeicherter Stand, wird aktualisiert")
+            manager?.applyCloudHistory(rows, status: "fonu-Konto · gespeicherter Stand, wird aktualisiert")
         }
         let generation = self.generation
         polling = Task { @MainActor [weak self] in
@@ -1324,11 +1324,11 @@ private final class CloudCallHistorySync {
             #endif
             snapshot = response
             manager?.applyCloudHistory(rows, status: response.collector_available
-                ? "Mit deinem fonoo-Konto synchronisiert" : "fonoo-Konto · Telefonieserver-Abgleich ausstehend")
+                ? "Mit deinem fonu-Konto synchronisiert" : "fonu-Konto · Telefonieserver-Abgleich ausstehend")
         } else {
             guard snapshot?.revision == response.revision else { throw CocoaError(.fileReadCorruptFile) }
             manager?.setCloudHistoryStatus(response.collector_available
-                ? "Mit deinem fonoo-Konto synchronisiert" : "fonoo-Konto · Telefonieserver-Abgleich ausstehend")
+                ? "Mit deinem fonu-Konto synchronisiert" : "fonu-Konto · Telefonieserver-Abgleich ausstehend")
         }
     }
     private func refresh() async {
@@ -1342,7 +1342,7 @@ private final class CloudCallHistorySync {
         } catch {
             if self.generation == generation {
                 manager?.setCloudHistoryStatus(snapshot == nil ? "Gemeinsame Anrufliste momentan nicht erreichbar"
-                    : "fonoo-Konto · gespeicherter Stand, Verbindung wird wiederholt")
+                    : "fonu-Konto · gespeicherter Stand, Verbindung wird wiederholt")
             }
         }
     }

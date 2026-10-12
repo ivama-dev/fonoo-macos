@@ -1,4 +1,4 @@
-# fonoo für macOS
+# fonu für macOS
 
 Native SwiftUI/AppKit-App ab macOS 14, Bundle-ID `app.fonoo.macos`, Scheme **FonooMac**. Kein Catalyst. Dieses Repository enthält die Mac-App samt benötigten gemeinsamen Apple-Dateien, Assets, isolierten Prüfungen und Hersteller-Lizenzen. Ein zweiter iOS-Checkout ist zum Bauen nicht erforderlich.
 
@@ -20,9 +20,9 @@ Die gebaute App liegt standardmäßig unter `/private/tmp/FonooMacNativeBuild/Bu
 
 Build **28** erweitert das dauerhafte **f.**-Symbol oben rechts zu einem interaktiven Schnellzugriff. Ein Klick zeigt den aktuellen Verbindungsstatus, Firma/Nebenstelle, Anrufprofil, Direktwahl sowie Verknüpfungen zu Favoriten, Team und Anrufliste. Während eines Gesprächs stehen Annehmen/Ablehnen, Mikrofon, Halten/Fortsetzen und Auflegen zur Verfügung. Rechtsklick öffnet das kompakte native Menü. Beide Ansichten verwenden denselben bestehenden Kontostand und Anrufmanager.
 
-Minimieren oder Schließen des Hauptfensters beendet die Telefonie nicht. **fonoo öffnen** bzw. die Verknüpfungen stellen das Fenster wieder her. Der Schnellzugriff ist auch über **fonoo → Schnellzugriff öffnen** bzw. **⌥⌘M** erreichbar. **Beenden** und Cmd-Q beenden die App; bei laufendem Gespräch bleibt die bisherige Rückfrage erhalten. Eingehende Anrufe benötigen einen wachen Mac. Der automatische Start beim Mac-Login wird dadurch nicht geändert.
+Minimieren oder Schließen des Hauptfensters beendet die Telefonie nicht. **fonu öffnen** bzw. die Verknüpfungen stellen das Fenster wieder her. Der Schnellzugriff ist auch über **fonu → Schnellzugriff öffnen** bzw. **⌥⌘M** erreichbar. **Beenden** und Cmd-Q beenden die App; bei laufendem Gespräch bleibt die bisherige Rückfrage erhalten. Eingehende Anrufe benötigen einen wachen Mac. Der automatische Start beim Mac-Login wird dadurch nicht geändert.
 
-Build **29** hält das Menüleistensymbol auch während eines Gesprächs kompakt. Neue Installationen beginnen am rechten Rand; eine später selbst gewählte Position bleibt erhalten. Falls macOS das Symbol durch Platzmangel verdeckt, stellt **fonoo → Menüleistensymbol rechts einblenden** nur die fonoo-Position wieder her, ohne die Telefonieverbindung neu zu starten. Die Diagnose protokolliert, ob die Symbolfläche innerhalb eines sichtbaren Bildschirmbereichs liegt; `isVisible` allein erkennt den Platzmangel unter der Notch nicht. macOS kann bei einer vollständig belegten Menüleiste weiterhin Symbole verdrängen. Gesprächsdauer und Audiowellen bleiben im Schnellzugriff sichtbar.
+Build **29** hält das Menüleistensymbol auch während eines Gesprächs kompakt. Neue Installationen beginnen am rechten Rand; eine später selbst gewählte Position bleibt erhalten. Falls macOS das Symbol durch Platzmangel verdeckt, stellt **fonu → Menüleistensymbol rechts einblenden** nur die fonu-Position wieder her, ohne die Telefonieverbindung neu zu starten. Die Diagnose protokolliert, ob die Symbolfläche innerhalb eines sichtbaren Bildschirmbereichs liegt; `isVisible` allein erkennt den Platzmangel unter der Notch nicht. macOS kann bei einer vollständig belegten Menüleiste weiterhin Symbole verdrängen. Gesprächsdauer und Audiowellen bleiben im Schnellzugriff sichtbar.
 
 Prüfstand 11. Oktober 2026: isolierte Positions-/Notch-Prüfungen und signierter Release-Build 29 bestanden, lokale App installiert und mit dem bisherigen Konto registriert. Die tatsächliche Sichtbarkeit nach Betätigung der Wiederherstellung ist noch zu bestätigen.
 
@@ -32,7 +32,7 @@ Prüfstand 10. Oktober 2026: signierte Debug-/Release-Builds und die Mac-Audio-/
 
 Favoriten werden in eigenen, pro Benutzer gespeicherten Gruppen angezeigt. **Favoriten → Gruppen verwalten** ermöglicht Anlegen, Umbenennen und Verschieben per Drag & Drop oder Pfeilen. Das Kontextmenü eines Favoriten verschiebt ihn in eine andere Gruppe; innerhalb einer Gruppe lässt sich die Reihenfolge verschieben. Beim Löschen einer Gruppe bleiben ihre Favoriten unter **Allgemein** erhalten. Bestehende Favoriten werden dem bestätigten bisherigen Konto zugeordnet; die alte Datei bleibt erhalten.
 
-Favoriten und Gruppen werden nach der Anmeldung automatisch mit dem persönlichen fonoo-Konto synchronisiert. Gruppen anlegen, umbenennen, löschen und sortieren sowie Kontakte zuordnen oder sortieren gilt auf jedem Gerät. Die Gruppe **Allgemein** bleibt erhalten; beim Löschen einer eigenen Gruppe werden deren Favoriten dorthin verschoben. Nur ausgewählte Favoriten werden übertragen, nicht das gesamte Adressbuch. Es gibt keinen Schalter zum Starten oder Beenden der Synchronisierung.
+Favoriten und Gruppen werden nach der Anmeldung automatisch mit dem persönlichen fonu-Konto synchronisiert. Gruppen anlegen, umbenennen, löschen und sortieren sowie Kontakte zuordnen oder sortieren gilt auf jedem Gerät. Die Gruppe **Allgemein** bleibt erhalten; beim Löschen einer eigenen Gruppe werden deren Favoriten dorthin verschoben. Nur ausgewählte Favoriten werden übertragen, nicht das gesamte Adressbuch. Es gibt keinen Schalter zum Starten oder Beenden der Synchronisierung.
 
 Änderungen funktionieren offline und werden bei der nächsten Verbindung abgeglichen. Gleichzeitige Änderungen werden anhand des letzten bestätigten Kontostands zusammengeführt; bei konkurrierenden Änderungen desselben Feldes gewinnt die noch ausstehende lokale Änderung beim erneuten Speichern. Löschungen haben Vorrang vor veralteten Kopien. Der automatische Worker wiederholt Revisionskonflikte höchstens dreimal pro Durchlauf und prüft im Vordergrund alle fünf Sekunden. Abmelden leert die Anzeige und schützt vor verspäteten Antworten einer alten Sitzung. Andere Benutzer und Firmenadministratoren haben keinen Zugriff auf die persönlichen Favoriten.
 
@@ -50,7 +50,7 @@ Echte Geräteabnahme zwischen iPhone, Mac und Windows bleibt erforderlich. Ein e
 
 Liblinphone 5.5.23 bleibt die einzige Telefonie-Engine. Team, Profile, Präsenz, Anrufhistorie, Weiterleitungen, Anmeldung und Audioverarbeitung bleiben erhalten. Der Kontoserver wird separat verwaltet.
 
-Die [iOS-App](https://github.com/ivama-dev/fonoo-ios) ist die Referenz für die gemeinsamen Dateien. Mit `python3 scripts/sync-shared-from-ios.py --source ../fonoo-ios --check` lässt sich ihr Stand vergleichen. Ohne `--check` werden freigegebene Änderungen übernommen; lokal geänderte gemeinsame Dateien werden nicht überschrieben. Anschließend beide Apps bauen und ihre Prüfungen ausführen. Die Herkunft und Dateihashes stehen in `Shared/upstream.json`.
+Die [iOS-App](https://github.com/ivama-dev/fonu-ios) ist die Referenz für die gemeinsamen Dateien. Mit `python3 scripts/sync-shared-from-ios.py --source ../fonoo-ios --check` lässt sich ihr Stand vergleichen. Ohne `--check` werden freigegebene Änderungen übernommen; lokal geänderte gemeinsame Dateien werden nicht überschrieben. Anschließend beide Apps bauen und ihre Prüfungen ausführen. Die Herkunft und Dateihashes stehen in `Shared/upstream.json`.
 
 Die [Mac-Oberfläche als Referenz für Windows](macos/WINDOWS-UI-REFERENZ.md) bleibt enthalten.
 
@@ -60,4 +60,8 @@ Die [Mac-Oberfläche als Referenz für Windows](macos/WINDOWS-UI-REFERENZ.md) bl
 
 ## Lizenz
 
-Die fonoo-macOS-App steht wie der Windows-Client unter **GNU Affero General Public License v3 oder später** (`AGPL-3.0-or-later`). Siehe [LICENSE](LICENSE) und [NOTICE.md](NOTICE.md). Drittanbieter behalten ihre eigenen Lizenzen; [Hinweise und unveränderte Lizenzdateien](THIRD-PARTY-NOTICES.md). GitHub-Prüfungen verwenden synthetische Daten und benötigen keine Produktionszugänge.
+Die fonu-macOS-App steht wie der Windows-Client unter **GNU Affero General Public License v3 oder später** (`AGPL-3.0-or-later`). Siehe [LICENSE](LICENSE) und [NOTICE.md](NOTICE.md). Drittanbieter behalten ihre eigenen Lizenzen; [Hinweise und unveränderte Lizenzdateien](THIRD-PARTY-NOTICES.md). GitHub-Prüfungen verwenden synthetische Daten und benötigen keine Produktionszugänge.
+
+## Markenname und technische Kompatibilität
+
+Seit 12. Oktober 2026 lautet der Marken- und Repository-Name **fonu**. Sichtbare Texte und GitHub-Verweise verwenden den neuen Namen. Bestehende technische Kennungen mit `fonoo`/`Fonoo` (unter anderem Bundle-/Store-IDs, Xcode-Schemes, Quellpfade, Push-Felder und lokale Datenablagen) bleiben zur Kompatibilität erhalten. Auch bisherige Server-, API-, E-Mail- und Deep-Link-Adressen gelten weiter, bis sie separat migriert werden. Historische Betriebsnachweise dokumentieren den damaligen Stand. Diese Änderung veröffentlicht keine neue App-Version und führt kein Server-Deployment aus.

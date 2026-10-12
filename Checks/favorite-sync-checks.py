@@ -98,7 +98,7 @@ private extension CloudFavoritesSync {
         let worker = CloudFavoritesSync(phone: phone, read: backend.read, write: backend.write)
         worker.selectForChecks("user-a"); phone.onFavoritesChanged = nil
         await worker.runForChecks()
-        assert(phone.favoriteSyncStatus == "Mit deinem Fonoo-Konto synchronisiert")
+        assert(phone.favoriteSyncStatus == "Mit deinem Fonu-Konto synchronisiert")
         let intact = try Data(contentsOf: legacy.url); assert(before == intact)
         print("PASS: legacy favorites adopted once for confirmed owner, original file preserved and cloud synced")
 

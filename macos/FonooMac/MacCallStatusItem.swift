@@ -133,10 +133,10 @@ final class MacCallStatusItem: NSObject, NSMenuDelegate {
         // Keep its footprint constant; full call information remains in the popover.
         button.title = ""
         button.image = snapshot.hasCall ? Self.image(snapshot) : Self.brandImage
-        button.toolTip = snapshot.hasCall ? "fonoo · \(snapshot.label) · \(snapshot.contact)\(snapshot.elapsed.isEmpty ? "" : " · " + snapshot.elapsed)"
-            : "fonoo · \(phone.registration.label)\(phone.doNotDisturb ? " · Nicht stören" : "")"
-        button.setAccessibilityLabel(snapshot.hasCall ? "fonoo, \(snapshot.label), \(snapshot.elapsed)"
-            : "fonoo, \(phone.registration.label)\(phone.doNotDisturb ? ", Nicht stören" : "")")
+        button.toolTip = snapshot.hasCall ? "fonu · \(snapshot.label) · \(snapshot.contact)\(snapshot.elapsed.isEmpty ? "" : " · " + snapshot.elapsed)"
+            : "fonu · \(phone.registration.label)\(phone.doNotDisturb ? " · Nicht stören" : "")"
+        button.setAccessibilityLabel(snapshot.hasCall ? "fonu, \(snapshot.label), \(snapshot.elapsed)"
+            : "fonu, \(phone.registration.label)\(phone.doNotDisturb ? ", Nicht stören" : "")")
         button.setAccessibilityHelp("Schnellzugriff öffnen. Rechtsklick für das Menü.")
     }
     private static let brandImage: NSImage = {
@@ -162,7 +162,7 @@ final class MacCallStatusItem: NSObject, NSMenuDelegate {
         add(snapshot.hasCall ? snapshot.label + (snapshot.elapsed.isEmpty ? "" : " · " + snapshot.elapsed) : phone.registration.label,
             to: menu, action: nil)
         if snapshot.hasCall { add(snapshot.contact, to: menu, action: nil) }
-        add(snapshot.hasCall ? "Zum Gespräch" : "fonoo öffnen", to: menu, action: #selector(openWindow))
+        add(snapshot.hasCall ? "Zum Gespräch" : "fonu öffnen", to: menu, action: #selector(openWindow))
         if miniCallWindow.canShow {
             add("Kleines Gesprächsfenster anzeigen", to: menu, action: #selector(openMiniCall))
         }
@@ -180,7 +180,7 @@ final class MacCallStatusItem: NSObject, NSMenuDelegate {
         let dnd = add("Nicht stören", to: menu, action: #selector(toggleDND), enabled: !customer.availabilitySaving)
         dnd.state = phone.doNotDisturb ? .on : .off
         add("Menüleistensymbol rechts einblenden", to: menu, action: #selector(restorePosition))
-        add("fonoo beenden", to: menu, action: #selector(quit))
+        add("fonu beenden", to: menu, action: #selector(quit))
     }
     @discardableResult
     private func add(_ title: String, to menu: NSMenu, action: Selector?, enabled: Bool = true) -> NSMenuItem {
@@ -241,7 +241,7 @@ private struct MacMenuBarView: View {
         VStack(alignment: .leading, spacing: 16) {
             HStack {
                 HStack(alignment: .lastTextBaseline, spacing: 2) {
-                    Text("fonoo").font(.system(size: 26, weight: .heavy)).tracking(-1)
+                    Text("fonu").font(.system(size: 26, weight: .heavy)).tracking(-1)
                     Circle().fill(MacStyle.accent).frame(width: 6, height: 6)
                 }
                 Spacer()
@@ -315,7 +315,7 @@ private struct MacMenuBarView: View {
             }
             Divider()
             HStack {
-                Button("fonoo öffnen") { open(phone.call == nil ? .dial : .conversation) }
+                Button("fonu öffnen") { open(phone.call == nil ? .dial : .conversation) }
                     .buttonStyle(.bordered)
                 Spacer()
                 Button("Beenden", action: quit).buttonStyle(.plain).foregroundStyle(.secondary)

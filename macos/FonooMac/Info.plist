@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>de</string>
 	<key>CFBundleDisplayName</key>
-	<string>fonoo</string>
+	<string>fonu</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>fonoo</string>
+	<string>fonu</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -25,9 +25,9 @@
 	<key>LSMinimumSystemVersion</key>
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSContactsUsageDescription</key>
-	<string>fonoo zeigt Namen und Telefonnummern deiner Mac-Kontakte. Dein Adressbuch wird nicht hochgeladen.</string>
+	<string>fonu zeigt Namen und Telefonnummern deiner Mac-Kontakte. Dein Adressbuch wird nicht hochgeladen.</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>fonoo benötigt das Mikrofon für deine Telefongespräche.</string>
+	<string>fonu benötigt das Mikrofon für deine Telefongespräche.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 </dict>

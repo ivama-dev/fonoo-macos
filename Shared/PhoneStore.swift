@@ -149,12 +149,12 @@ final class PhoneStore: ObservableObject {
         do { try connection.start(); diagnostics.record("Liblinphone · \(sdkVersion)") }
         catch { manager.show(error.localizedDescription) }
         #if os(macOS)
-        diagnostics.record("macOS: native fonoo-Anrufansicht; erreichbar, solange die App läuft und der Mac wach ist.")
+        diagnostics.record("macOS: native fonu-Anrufansicht; erreichbar, solange die App läuft und der Mac wach ist.")
         #elseif targetEnvironment(simulator)
         // The simulator has no system in-call UI host. Its callservicesd ends
         // native outgoing calls immediately (disconnect reason 55). Keep SIP
         // and audio under the foreground app's control for simulator testing.
-        diagnostics.record("Simulator: fonoo-Anrufansicht aktiv; native Anrufe und VoIP-Push nur auf echten Geräten.")
+        diagnostics.record("Simulator: fonu-Anrufansicht aktiv; native Anrufe und VoIP-Push nur auf echten Geräten.")
         #else
         prepareSystemCalls()
         #endif
@@ -261,7 +261,7 @@ final class PhoneStore: ObservableObject {
             throw PhoneError.message("Bitte eine Cloud-Nebenstelle am iPhone aktivieren oder das laufende Gespräch beenden.")
         }
         guard AVAudioApplication.shared.recordPermission == .granted else {
-            throw PhoneError.message("Bitte fonoo am iPhone öffnen und den Mikrofonzugriff erlauben.")
+            throw PhoneError.message("Bitte fonu am iPhone öffnen und den Mikrofonzugriff erlauben.")
         }
         let request = UUID(), endpoint = account.username
         nativeCallRequest = request
@@ -275,7 +275,7 @@ final class PhoneStore: ObservableObject {
             }
         }
         guard cloudPushActive, account.username == endpoint, !busy, registration == .registered else {
-            throw PhoneError.message("fonoo ist gerade nicht verbunden. Bitte später erneut versuchen.")
+            throw PhoneError.message("fonu ist gerade nicht verbunden. Bitte später erneut versuchen.")
         }
         let started = await withCheckedContinuation { continuation in
             manager.startSystemCall(contact) { continuation.resume(returning: $0) }
@@ -360,7 +360,7 @@ final class PhoneStore: ObservableObject {
         let checked = try configuration.validated()
         guard checked.transport == .tls, checked.mediaEncryption == .srtp,
               !checked.usesTLSClientCertificate else {
-            throw PhoneError.message("Bitte deine fonoo-Cloud-Nebenstelle im fonoo-Konto einrichten.")
+            throw PhoneError.message("Bitte deine fonu-Cloud-Nebenstelle im fonu-Konto einrichten.")
         }
         // Blank means reuse the saved password only for the exact same account identity.
         let storedAccount = try accountStore.load()
@@ -509,7 +509,7 @@ final class PhoneStore: ObservableObject {
         guard favoriteOwner == snapshot.user_id, favoriteSyncEnabled else { throw CancellationError() }
         var state = favoriteState; try state.observe(snapshot); try saveFavorites(state)
         favoriteSyncStatus = state.conflict != nil ? "Auf einem anderen Gerät geändert. Deine lokalen Änderungen bleiben erhalten."
-            : state.dirty ? "Lokal gespeichert · Synchronisierung ausstehend" : "Mit deinem Fonoo-Konto synchronisiert"
+            : state.dirty ? "Lokal gespeichert · Synchronisierung ausstehend" : "Mit deinem Fonu-Konto synchronisiert"
     }
     func favoriteUpload(owner: String) throws -> (revision: Int64, library: FavoriteLibrary)? {
         guard favoriteOwner == owner, favoriteSyncEnabled, favoriteState.dirty, favoriteState.conflict == nil, let revision = favoriteState.revision else { return nil }
@@ -519,7 +519,7 @@ final class PhoneStore: ObservableObject {
     func acknowledgeFavorites(_ snapshot: CloudFavoriteSnapshot, sent: FavoriteLibrary) throws {
         guard favoriteOwner == snapshot.user_id, favoriteSyncEnabled else { throw CancellationError() }
         var state = favoriteState; try state.acknowledged(snapshot, sent: sent); try saveFavorites(state)
-        favoriteSyncStatus = state.dirty ? "Lokal gespeichert · Synchronisierung ausstehend" : "Mit deinem Fonoo-Konto synchronisiert"
+        favoriteSyncStatus = state.dirty ? "Lokal gespeichert · Synchronisierung ausstehend" : "Mit deinem Fonu-Konto synchronisiert"
         if state.dirty { onFavoritesChanged?() }
     }
     func mergeFavoriteConflict() {

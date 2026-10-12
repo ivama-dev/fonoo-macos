@@ -247,7 +247,7 @@ final class MacAppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminate(_ sender: NSApplication) -> NSApplication.TerminateReply {
         guard phone.busy else { return .terminateNow }
         let alert = NSAlert()
-        alert.messageText = "Gespräch beenden und fonoo schließen?"
+        alert.messageText = "Gespräch beenden und fonu schließen?"
         alert.informativeText = "Dein laufendes Gespräch wird getrennt."
         alert.addButton(withTitle: "Weiter telefonieren")
         alert.addButton(withTitle: "Beenden")
@@ -277,7 +277,7 @@ struct FonooMacApp: App {
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.openWindow) private var openWindow
     var body: some Scene {
-        Window("fonoo", id: "main") {
+        Window("fonu", id: "main") {
             Group {
                 #if DEBUG
                 if TeamPreview.enabled {

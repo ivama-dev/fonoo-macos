@@ -187,7 +187,7 @@ final class LinphoneSIPCore: SIPCore {
               let pem = try? String(contentsOf: trustBundle, encoding: .utf8),
               pem.contains("-----BEGIN CERTIFICATE-----") else {
             trace("FEHLER: Der mitgelieferte TLS-Zertifikatsspeicher fehlt oder ist nicht lesbar.")
-            throw PhoneError.message("TLS-Zertifikatsspeicher nicht verfügbar. Bitte fonoo neu installieren.")
+            throw PhoneError.message("TLS-Zertifikatsspeicher nicht verfügbar. Bitte fonu neu installieren.")
         }
         value.rootCa = trustBundle.path
         let rootCount = pem.components(separatedBy: "-----BEGIN CERTIFICATE-----").count - 1

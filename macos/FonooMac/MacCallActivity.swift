@@ -18,7 +18,7 @@ final class MacCallActivity: ObservableObject {
         var hasCall: Bool { state != .idle }
         var label: String {
             switch state {
-            case .idle: "fonoo"
+            case .idle: "fonu"
             case .incoming: "Eingehender Anruf"
             case .connecting: "Verbindung wird aufgebaut"
             case .ringing: "Klingelt …"

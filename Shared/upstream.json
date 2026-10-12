@@ -1,6 +1,6 @@
 {
-  "repository": "https://github.com/ivama-dev/fonoo-ios",
-  "imported_at": "2026-10-09",
+  "repository": "https://github.com/ivama-dev/fonu-ios",
+  "imported_at": "2026-10-12",
   "files": [
     {
       "source": "ios/Fonoo/AccountStore.swift",
@@ -10,7 +10,7 @@
     {
       "source": "ios/Fonoo/CallManager.swift",
       "destination": "Shared/CallManager.swift",
-      "sha256": "42dce4ba3e33a8915dfad8f2e381c4015c18f211954c7a8aa59a7036f9bd829e"
+      "sha256": "c2a571e81c6b61a9848facfb7e9541f6c1a1e2d523b380874be1130c6fa403ba"
     },
     {
       "source": "ios/Fonoo/CallSession.swift",
@@ -25,7 +25,7 @@
     {
       "source": "ios/Fonoo/CustomerAccount.swift",
       "destination": "Shared/CustomerAccount.swift",
-      "sha256": "f5a8aad06b2117357c187eb1d6ad1fcf49fcfd9ccee83b08cccffe2cea660f20"
+      "sha256": "969c4bc4e164898f78b5d9734b1f8851db3e502ff34fc64729d3531b65b660f7"
     },
     {
       "source": "ios/Fonoo/DeviceContact.swift",
@@ -45,7 +45,7 @@
     {
       "source": "ios/Fonoo/LinphoneSIPCore.swift",
       "destination": "Shared/LinphoneSIPCore.swift",
-      "sha256": "efee4aade1e56903581d00fc7cd1c0282feeec2367d21de4f360349a595f17c3"
+      "sha256": "917a46e4285b1883476d2b96c28699d65014c2496fe435f4f4800bfd47f6be45"
     },
     {
       "source": "ios/Fonoo/NetworkMonitor.swift",
@@ -55,7 +55,7 @@
     {
       "source": "ios/Fonoo/PhoneStore.swift",
       "destination": "Shared/PhoneStore.swift",
-      "sha256": "07e3361a0a2d63128ed47aedc11f0021a5fa95fc49719ed9de15903f509d163b"
+      "sha256": "09e4b3fe13c9d42df9dc1b5164c11f37410b7d07b54a665b7f70417b5abf1df3"
     },
     {
       "source": "ios/Fonoo/PrivacyInfo.xcprivacy",
